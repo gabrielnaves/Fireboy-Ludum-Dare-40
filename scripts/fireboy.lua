@@ -43,7 +43,7 @@ function fireboy.updateVelocity(dt)
     fireboy.velY = fireboy.velY + fireboy.accY * dt
 end
 
-function fireboy.updateInitialState(dt, gamestate)
+function fireboy.updateInitialState(dt)
     -- Animation update
     fireboy.elapsedTime = fireboy.elapsedTime + dt
     if fireboy.elapsedTime > fireboy.frameTime then
@@ -60,7 +60,7 @@ function fireboy.updateInitialState(dt, gamestate)
     end
 end
 
-function fireboy.updateLaunch(dt, gamestate)
+function fireboy.updateLaunch(dt)
     fireboy.pos_frame = 3
     -- Position update
     fireboy.velY = fireboy.launchSpeed
@@ -74,24 +74,24 @@ function fireboy.updateLaunch(dt, gamestate)
     end
 end
 
-function fireboy.updateFloat(dt, gamestate)
+function fireboy.updateFloat(dt)
     fireboy.pos_frame = 4
 end
 
-function fireboy.updateFall(dt, gamestate)
+function fireboy.updateFall(dt)
     fireboy.pos_frame = 5
 end
 
-function fireboy.updateReady(dt, gamestate)
+function fireboy.updateReady(dt)
     fireboy.pos_frame = 2
 end
 
-function fireboy.updateAscend(dt, gamestate)
+function fireboy.updateAscend(dt)
     fireboy.pos_frame = 3
 end
 
-function fireboy.update(dt, gamestate)
-    fireboy.updateFunction(dt, gamestate)
+function fireboy.update(dt)
+    fireboy.updateFunction(dt)
 end
 
 -- State data

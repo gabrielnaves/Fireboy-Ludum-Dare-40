@@ -14,7 +14,7 @@ fireboy.offsetBound = 18
 
 -- Image data
 fireboy.img = love.graphics.newImage('assets/sprites/fireboy.png')
-fireboy.num_frames = 5
+fireboy.num_frames = 10
 fireboy.pos_frame = 1
 fireboy.frame_width = fireboy.img:getWidth() / fireboy.num_frames
 fireboy.frame_height = fireboy.img:getHeight()
@@ -23,16 +23,28 @@ fireboy.frames = {
     love.graphics.newQuad(fireboy.frame_width * 1, 0, fireboy.frame_width, fireboy.frame_height, fireboy.img:getWidth(), fireboy.img:getHeight()),
     love.graphics.newQuad(fireboy.frame_width * 2, 0, fireboy.frame_width, fireboy.frame_height, fireboy.img:getWidth(), fireboy.img:getHeight()),
     love.graphics.newQuad(fireboy.frame_width * 3, 0, fireboy.frame_width, fireboy.frame_height, fireboy.img:getWidth(), fireboy.img:getHeight()),
-    love.graphics.newQuad(fireboy.frame_width * 4, 0, fireboy.frame_width, fireboy.frame_height, fireboy.img:getWidth(), fireboy.img:getHeight())
+    love.graphics.newQuad(fireboy.frame_width * 4, 0, fireboy.frame_width, fireboy.frame_height, fireboy.img:getWidth(), fireboy.img:getHeight()),
+    love.graphics.newQuad(fireboy.frame_width * 5, 0, fireboy.frame_width, fireboy.frame_height, fireboy.img:getWidth(), fireboy.img:getHeight()),
+    love.graphics.newQuad(fireboy.frame_width * 6, 0, fireboy.frame_width, fireboy.frame_height, fireboy.img:getWidth(), fireboy.img:getHeight()),
+    love.graphics.newQuad(fireboy.frame_width * 7, 0, fireboy.frame_width, fireboy.frame_height, fireboy.img:getWidth(), fireboy.img:getHeight()),
+    love.graphics.newQuad(fireboy.frame_width * 8, 0, fireboy.frame_width, fireboy.frame_height, fireboy.img:getWidth(), fireboy.img:getHeight()),
+    love.graphics.newQuad(fireboy.frame_width * 9, 0, fireboy.frame_width, fireboy.frame_height, fireboy.img:getWidth(), fireboy.img:getHeight())
 }
 
 -- Timers
 fireboy.elapsedTime = 0
 fireboy.frameTime = 0.3
 fireboy.launchTime = 3
+fireboy.jumpTime = 0.75
+
+-- Some miscellaneous variables
+fireboy.previousPositionY = nil
+fireboy.flip = false
 
 function fireboy.draw(dt)
-    love.graphics.draw(fireboy.img, fireboy.frames[fireboy.pos_frame],
+    local frame_index = fireboy.pos_frame
+    if flip then frame_index = frame_index + 5 end
+    love.graphics.draw(fireboy.img, fireboy.frames[frame_index],
                        fireboy.x - fireboy.frame_width / 2, fireboy.y - fireboy.frame_height)
 end
 
@@ -105,6 +117,7 @@ function fireboy.updateFloat(dt)
     if fireboy.velY > 0 then
         fireboy.state = fireboy.states.fall
         fireboy.updateFunction = fireboy.updateFall
+        fireboy.previousPositionY = fireboy.y
     end
 end
 
@@ -115,18 +128,60 @@ function fireboy.updateFall(dt)
     fireboy.accY = fireboy.gravity
     fireboy.updateVelocity(dt)
     fireboy.updatePosition(dt)
+    -- State update
+    for i, platform in ipairs(platformGenerator.platforms) do
+        if platform.y > fireboy.previousPositionY and platform.y < fireboy.y then
+            if fireboy.x > platform.x and fireboy.x < platform.x + platform.img:getWidth() then
+                fireboy.accX, fireboy.accY = 0, 0
+                fireboy.velX, fireboy.velY = 0, 0
+                fireboy.y = platform.y
+                fireboy.state = fireboy.states.ready
+                fireboy.updateFunction = fireboy.updateReady
+                fireboy.elapsedTime = 0
+                fireboy.pos_frame = 1
+                break
+            end
+        end
+    end
+    fireboy.previousPositionY = fireboy.y
 end
 
 function fireboy.updateReady(dt)
-    fireboy.pos_frame = 2
+    -- Animation update
+    fireboy.elapsedTime = fireboy.elapsedTime + dt
+    if fireboy.elapsedTime > fireboy.frameTime then
+        if fireboy.pos_frame == 1 then fireboy.pos_frame = 2
+        elseif fireboy.pos_frame == 2 then fireboy.pos_frame = 1
+        end
+        fireboy.elapsedTime = 0
+    end
+    -- State update
+    if love.keyboard.isDown('space') then
+        fireboy.state = fireboy.states.ascend
+        fireboy.updateFunction = fireboy.updateAscend
+    end
 end
 
 function fireboy.updateAscend(dt)
     fireboy.pos_frame = 3
+    -- Motion update
+    fireboy.accX = fireboy.movAcc * input:horizontalAxis()
+    fireboy.velY = fireboy.jumpSpeed
+    fireboy.updateVelocity(dt)
+    fireboy.updatePosition(dt)
+    -- State update
+    fireboy.elapsedTime = fireboy.elapsedTime + dt
+    if fireboy.elapsedTime > fireboy.jumpTime then
+        fireboy.state = fireboy.states.float
+        fireboy.updateFunction = fireboy.updateFloat
+        fireboy.elapsedTime = 0
+    end
 end
 
 function fireboy.update(dt)
     fireboy.updateFunction(dt)
+    -- update flip
+    if fireboy.velX > 0 then flip = false elseif fireboy.velX < 0 then flip = true end
 end
 
 -- State data

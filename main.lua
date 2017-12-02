@@ -42,6 +42,6 @@ function love.draw(dt)
         love.graphics.print('Fireboy state: ' .. tostring(fireboy.state), 5, 10)
         love.graphics.print('Fireboy x vel: ' .. tostring(fireboy.velX), 5, 20)
         love.graphics.print('Fireboy y vel: ' .. tostring(fireboy.velY), 5, 30)
-        love.graphics.print('Horizontal axis: ' .. tostring(input:horizontalAxis()), 5, 40)
+        love.graphics.print('Flip: ' .. tostring(fireboy.flip), 5, 40)
     end
 end

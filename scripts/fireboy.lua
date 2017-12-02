@@ -40,6 +40,8 @@ fireboy.jumpTime = 0.75
 -- Some miscellaneous variables
 fireboy.previousPositionY = nil
 fireboy.flip = false
+fireboy.fire = 100
+fireboy.dashCost = 20
 
 function fireboy.draw(dt)
     local frame_index = fireboy.pos_frame
@@ -85,7 +87,7 @@ function fireboy.updateInitialState(dt)
         fireboy.elapsedTime = 0
     end
     -- State update
-    if love.keyboard.isDown('space') then
+    if input:actionButtonDown() then
         fireboy.state = fireboy.states.launch
         fireboy.updateFunction = fireboy.updateLaunch
         gamestate.state = gamestate.states.ingame
@@ -118,6 +120,10 @@ function fireboy.updateFloat(dt)
         fireboy.state = fireboy.states.fall
         fireboy.updateFunction = fireboy.updateFall
         fireboy.previousPositionY = fireboy.y
+    elseif input:actionButtonDown() then
+         fireboy.fire = fireboy.fire - fireboy.dashCost
+         fireboy.state = fireboy.states.ascend
+         fireboy.updateFunction = fireboy.updateAscend
     end
 end
 
@@ -129,17 +135,23 @@ function fireboy.updateFall(dt)
     fireboy.updateVelocity(dt)
     fireboy.updatePosition(dt)
     -- State update
-    for i, platform in ipairs(platformGenerator.platforms) do
-        if platform.y > fireboy.previousPositionY and platform.y < fireboy.y then
-            if fireboy.x > platform.x and fireboy.x < platform.x + platform.img:getWidth() then
-                fireboy.accX, fireboy.accY = 0, 0
-                fireboy.velX, fireboy.velY = 0, 0
-                fireboy.y = platform.y
-                fireboy.state = fireboy.states.ready
-                fireboy.updateFunction = fireboy.updateReady
-                fireboy.elapsedTime = 0
-                fireboy.pos_frame = 1
-                break
+    if input:actionButtonDown() then
+        fireboy.fire = fireboy.fire - fireboy.dashCost
+        fireboy.state = fireboy.states.ascend
+        fireboy.updateFunction = fireboy.updateAscend
+    else
+        for i, platform in ipairs(platformGenerator.platforms) do
+            if platform.y > fireboy.previousPositionY and platform.y < fireboy.y then
+                if fireboy.x > platform.x and fireboy.x < platform.x + platform.img:getWidth() then
+                    fireboy.accX, fireboy.accY = 0, 0
+                    fireboy.velX, fireboy.velY = 0, 0
+                    fireboy.y = platform.y
+                    fireboy.state = fireboy.states.ready
+                    fireboy.updateFunction = fireboy.updateReady
+                    fireboy.elapsedTime = 0
+                    fireboy.pos_frame = 1
+                    break
+                end
             end
         end
     end
@@ -156,9 +168,10 @@ function fireboy.updateReady(dt)
         fireboy.elapsedTime = 0
     end
     -- State update
-    if love.keyboard.isDown('space') then
+    if input:actionButtonDown() then
         fireboy.state = fireboy.states.ascend
         fireboy.updateFunction = fireboy.updateAscend
+        fireboy.elapsedTime = 0
     end
 end
 
@@ -174,6 +187,9 @@ function fireboy.updateAscend(dt)
     if fireboy.elapsedTime > fireboy.jumpTime then
         fireboy.state = fireboy.states.float
         fireboy.updateFunction = fireboy.updateFloat
+        fireboy.elapsedTime = 0
+    elseif input:actionButtonDown() then
+        fireboy.fire = fireboy.fire - fireboy.dashCost
         fireboy.elapsedTime = 0
     end
 end

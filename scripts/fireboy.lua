@@ -5,7 +5,7 @@ fireboy.x = 180
 fireboy.y = 608
 fireboy.movSpeed = 10
 fireboy.jumpSpeed = 25
-fireboy.launchSpeed = 30
+fireboy.launchSpeed = 500
 
 -- Image data
 fireboy.img = love.graphics.newImage('assets/sprites/fireboy.png')
@@ -49,7 +49,7 @@ end
 
 function fireboy.updateLaunch(dt, gamestate)
     fireboy.pos_frame = 3
-
+    fireboy.y = fireboy.y - fireboy.launchSpeed * dt
 end
 
 function fireboy.updateFloat(dt, gamestate)

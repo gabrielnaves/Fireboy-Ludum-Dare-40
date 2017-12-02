@@ -1,7 +1,7 @@
 gamestate = {}
 
-begin, ingame, dead = 0, 1, 2
+gamestate.states = { begin = "begin", ingame = "ingame", dead = "dead" }
 
-state = begin
+gamestate.state = gamestate.states.begin
 
 return gamestate

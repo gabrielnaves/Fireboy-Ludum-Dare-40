@@ -1,3 +1,5 @@
+DEBUG_MODE = true
+
 function love.load(arg)
     background = require("scripts.background")
     frame = require("scripts.frame")
@@ -16,5 +18,8 @@ function love.draw(dt)
     floor.draw(dt)
     fireboy.draw(dt)
 
-    -- love.graphics.print('State: ' .. tostring(fireboy.state), 5, 10)
+    if DEBUG_MODE then
+        love.graphics.print('Gamestate state: ' .. tostring(gamestate.state), 5, 10)
+        love.graphics.print('Fireboy state: ' .. tostring(fireboy.state), 5, 20)
+    end
 end

@@ -3,12 +3,14 @@ fireboy = {}
 -- Motion data
 fireboy.x = 180
 fireboy.y = 608
-fireboy.movSpeed = 10
-fireboy.jumpSpeed = -25
-fireboy.launchSpeed = -500
+fireboy.movAcc = 1100
+fireboy.jumpSpeed = -500
+fireboy.launchSpeed = -1000
 fireboy.velX, fireboy.velY = 0, 0
 fireboy.accX, fireboy.accY = 0, 0
-fireboy.gravity = 400
+fireboy.gravity = 500
+fireboy.maxHorizontalVel = 400
+fireboy.offsetBound = 18
 
 -- Image data
 fireboy.img = love.graphics.newImage('assets/sprites/fireboy.png')
@@ -27,7 +29,7 @@ fireboy.frames = {
 -- Timers
 fireboy.elapsedTime = 0
 fireboy.frameTime = 0.3
-fireboy.launchTime = 1
+fireboy.launchTime = 3
 
 function fireboy.draw(dt)
     love.graphics.draw(fireboy.img, fireboy.frames[fireboy.pos_frame],
@@ -37,11 +39,28 @@ end
 function fireboy.updatePosition(dt)
     fireboy.x = fireboy.x + fireboy.velX * dt
     fireboy.y = fireboy.y + fireboy.velY * dt
+    if fireboy.x < fireboy.offsetBound then
+        fireboy.x = fireboy.offsetBound
+        fireboy.velX = 0
+    end
+    if fireboy.x > 360 - fireboy.offsetBound then
+        fireboy.x = 360 - fireboy.offsetBound
+        fireboy.velX = 0
+    end
 end
 
 function fireboy.updateVelocity(dt)
-    fireboy.velX = fireboy.velX + fireboy.accX * dt
+    if (fireboy.accX > 0 and fireboy.velX > 0) or (fireboy.accX < 0 and fireboy.velX < 0) then
+        fireboy.velX = fireboy.velX + fireboy.accX * dt
+    elseif fireboy.accX ~= 0 then
+        fireboy.velX = fireboy.velX * 0.95
+        fireboy.velX = fireboy.velX + fireboy.accX * dt
+    else
+        fireboy.velX = fireboy.velX * 0.95
+    end
     fireboy.velY = fireboy.velY + fireboy.accY * dt
+    if fireboy.velX > fireboy.maxHorizontalVel then fireboy.velX = fireboy.maxHorizontalVel end
+    if fireboy.velX < -fireboy.maxHorizontalVel then fireboy.velX = -fireboy.maxHorizontalVel end
 end
 
 function fireboy.updateInitialState(dt)
@@ -78,6 +97,7 @@ end
 function fireboy.updateFloat(dt)
     fireboy.pos_frame = 4
     -- Motion update
+    fireboy.accX = fireboy.movAcc * input:horizontalAxis()
     fireboy.accY = fireboy.gravity
     fireboy.updateVelocity(dt)
     fireboy.updatePosition(dt)
@@ -91,6 +111,7 @@ end
 function fireboy.updateFall(dt)
     fireboy.pos_frame = 5
     -- Motion update
+    fireboy.accX = fireboy.movAcc * input:horizontalAxis()
     fireboy.accY = fireboy.gravity
     fireboy.updateVelocity(dt)
     fireboy.updatePosition(dt)

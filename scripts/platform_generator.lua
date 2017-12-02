@@ -2,7 +2,7 @@ platformGenerator = {}
 
 platformGenerator.platforms = {}
 
-platformGenerator.startPosition = 400
+platformGenerator.startPosition = -1000
 platformGenerator.currentPosition = nil
 platformGenerator.distanceToNext = nil
 

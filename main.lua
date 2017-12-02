@@ -1,4 +1,5 @@
 require("scripts.platform")
+require("scripts.game_input")
 
 DEBUG_MODE = true
 
@@ -37,8 +38,10 @@ function love.draw(dt)
     frame.draw(dt)
 
     if DEBUG_MODE then
-        love.graphics.print('Gamestate state: ' .. tostring(gamestate.state), 5, 10)
-        love.graphics.print('Fireboy state: ' .. tostring(fireboy.state), 5, 20)
+        love.graphics.print('Gamestate state: ' .. tostring(gamestate.state), 5, 0)
+        love.graphics.print('Fireboy state: ' .. tostring(fireboy.state), 5, 10)
+        love.graphics.print('Fireboy x vel: ' .. tostring(fireboy.velX), 5, 20)
         love.graphics.print('Fireboy y vel: ' .. tostring(fireboy.velY), 5, 30)
+        love.graphics.print('Horizontal axis: ' .. tostring(input:horizontalAxis()), 5, 40)
     end
 end

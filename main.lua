@@ -1,21 +1,20 @@
-background = require("objects.background")
-frame = require("objects.frame")
-floor = require("objects.floor")
-
-fireboy = require("objects.fireboy")
-
 function love.load(arg)
-
+    background = require("scripts.background")
+    frame = require("scripts.frame")
+    floor = require("scripts.floor")
+    fireboy = require("scripts.fireboy")
+    gamestate = require("scripts.gamestate")
 end
 
 function love.update(dt)
-
+    fireboy.update(dt, gamestate)
 end
 
 function love.draw(dt)
-    love.graphics.draw(background.img, background.x, background.y)
-    love.graphics.draw(frame.img, frame.x, frame.y)
-    love.graphics.draw(floor.img, floor.x, floor.y)
+    background.draw(dt)
+    frame.draw(dt)
+    floor.draw(dt)
+    fireboy.draw(dt)
 
-    love.graphics.draw(fireboy.img, fireboy.frames[fireboy.pos_frame], fireboy.drawX(), fireboy.drawY())
+    -- love.graphics.print('State: ' .. tostring(fireboy.state), 5, 10)
 end

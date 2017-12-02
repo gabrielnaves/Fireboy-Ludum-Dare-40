@@ -1,13 +1,14 @@
 fireboy = {}
 
--- Movement data
+-- Motion data
 fireboy.x = 180
 fireboy.y = 608
 fireboy.movSpeed = 10
-fireboy.jumpSpeed = 25
-fireboy.launchSpeed = 500
+fireboy.jumpSpeed = -25
+fireboy.launchSpeed = -500
 fireboy.velX, fireboy.velY = 0, 0
 fireboy.accX, fireboy.accY = 0, 0
+fireboy.gravity = 400
 
 -- Image data
 fireboy.img = love.graphics.newImage('assets/sprites/fireboy.png')
@@ -26,7 +27,7 @@ fireboy.frames = {
 -- Timers
 fireboy.elapsedTime = 0
 fireboy.frameTime = 0.3
-fireboy.launchTime = 3
+fireboy.launchTime = 1
 
 function fireboy.draw(dt)
     love.graphics.draw(fireboy.img, fireboy.frames[fireboy.pos_frame],
@@ -35,7 +36,7 @@ end
 
 function fireboy.updatePosition(dt)
     fireboy.x = fireboy.x + fireboy.velX * dt
-    fireboy.y = fireboy.y - fireboy.velY * dt
+    fireboy.y = fireboy.y + fireboy.velY * dt
 end
 
 function fireboy.updateVelocity(dt)
@@ -62,7 +63,7 @@ end
 
 function fireboy.updateLaunch(dt)
     fireboy.pos_frame = 3
-    -- Position update
+    -- Motion update
     fireboy.velY = fireboy.launchSpeed
     fireboy.updatePosition(dt)
     -- State update
@@ -76,10 +77,23 @@ end
 
 function fireboy.updateFloat(dt)
     fireboy.pos_frame = 4
+    -- Motion update
+    fireboy.accY = fireboy.gravity
+    fireboy.updateVelocity(dt)
+    fireboy.updatePosition(dt)
+    -- State update
+    if fireboy.velY > 0 then
+        fireboy.state = fireboy.states.fall
+        fireboy.updateFunction = fireboy.updateFall
+    end
 end
 
 function fireboy.updateFall(dt)
     fireboy.pos_frame = 5
+    -- Motion update
+    fireboy.accY = fireboy.gravity
+    fireboy.updateVelocity(dt)
+    fireboy.updatePosition(dt)
 end
 
 function fireboy.updateReady(dt)

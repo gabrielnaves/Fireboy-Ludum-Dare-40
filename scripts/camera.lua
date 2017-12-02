@@ -3,7 +3,7 @@ camera = {}
 camera.x = 0
 camera.y = 0
 
-camera.fireboyOffset = 500
+camera.fireboyOffset = 400
 
 function camera.set()
     love.graphics.push()

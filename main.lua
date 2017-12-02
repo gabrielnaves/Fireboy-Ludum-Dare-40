@@ -39,6 +39,6 @@ function love.draw(dt)
     if DEBUG_MODE then
         love.graphics.print('Gamestate state: ' .. tostring(gamestate.state), 5, 10)
         love.graphics.print('Fireboy state: ' .. tostring(fireboy.state), 5, 20)
-        love.graphics.print('Camera pos: ' .. tostring(camera.y), 5, 30)
+        love.graphics.print('Fireboy y vel: ' .. tostring(fireboy.velY), 5, 30)
     end
 end

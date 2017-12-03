@@ -191,6 +191,8 @@ function fireboy.updateFall(dt)
                     if platform.type == base_platform.water then -- Landed on a water platform
                         if firebar.fire <= 100 then firebar.updateFire(firebar.fire - 50)
                         else firebar.updateFire(firebar.fire * fireboy.waterDamage) end
+                        fireboy.hitTimer = 0
+                        camera.shake()
                         fireboy.state = fireboy.states.ascend
                         fireboy.updateFunction = fireboy.updateAscend
                     elseif platform.type == base_platform.normal then -- Landed on a normal platform

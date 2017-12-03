@@ -1,0 +1,7 @@
+Zip game files to Fireboy.zip, run
+> cp Fireboy.zip bin\Fireboy.love
+> rm Fireboy.zip
+
+On an admin command pront (NOT powershell):
+> cd bin
+> copy /b love.exe+Fireboy.love Fireboy.exe

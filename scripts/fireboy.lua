@@ -38,6 +38,10 @@ fireboy.jumpTimer = 0
 fireboy.frameTime = 0.3
 fireboy.launchTime = 3
 fireboy.jumpTime = 0.5
+fireboy.hitTime = 0.8
+fireboy.hitTimer = fireboy.hitTime
+fireboy.blinkTimer = 0
+fireboy.blinkTime = 0.2
 
 -- Some miscellaneous variables
 fireboy.previousPositionY = nil
@@ -55,8 +59,13 @@ fireboy.boxHeight = 36
 function fireboy.draw(dt)
     local frame_index = fireboy.pos_frame
     if fireboy.flip then frame_index = frame_index + 5 end
-    love.graphics.draw(fireboy.img, fireboy.frames[frame_index],
-                       fireboy.x - fireboy.frame_width / 2, fireboy.y - fireboy.frame_height)
+    if fireboy.hitTimer > fireboy.hitTime then
+        love.graphics.draw(fireboy.img, fireboy.frames[frame_index],
+                           fireboy.x - fireboy.frame_width / 2, fireboy.y - fireboy.frame_height)
+    elseif fireboy.blinkTimer > fireboy.blinkTime / 2 then
+        love.graphics.draw(fireboy.img, fireboy.frames[frame_index],
+                           fireboy.x - fireboy.frame_width / 2, fireboy.y - fireboy.frame_height)
+    end
 end
 
 function fireboy.updatePosition(dt)
@@ -229,7 +238,8 @@ function fireboy.update(dt)
         fireboy.updateFunction = fireboy.updateDead
     end
     -- Update collision with enemies
-    if gamestate.state == gamestate.states.ingame then
+    fireboy.hitTimer = fireboy.hitTimer + dt
+    if gamestate.state == gamestate.states.ingame and fireboy.hitTimer > fireboy.hitTime then
         for i, enemy in ipairs(enemyGenerator.enemies) do
             if enemyCollision:isCollidingWithFireboy(enemy) then
                 if enemy.y-fireboy.y > base_enemy.radius / 2 then -- Jumping on enemy, ascend
@@ -240,10 +250,21 @@ function fireboy.update(dt)
                     fireboy.jumpTimer = 0
                     break
                 else -- Damaged by enemy, fall
+                    if firebar.fire <= 50 then firebar.updateFire(0) end
+                    firebar.updateFire(firebar.fire * fireboy.waterDamage)
+                    fireboy.hitTimer = 0
+                    fireboy.state = fireboy.states.fall
+                    fireboy.updateFunction = fireboy.updateFall
+                    fireboy.previousPositionY = fireboy.y
+                    fireboy.velX, fireboy.velY = 0, 0
+                    fireboy.accX, fireboy.accY = 0, 0
                 end
             end
         end
     end
+    -- Update blink timer
+    fireboy.blinkTimer = fireboy.blinkTimer + dt
+    if fireboy.blinkTimer > fireboy.blinkTime then fireboy.blinkTimer = 0 end
 end
 
 -- State data
@@ -260,6 +281,7 @@ function fireboy.reset()
     fireboy.jumpTimer = 0
     fireboy.launchTimer = 0
     fireboy.animationTimer = 0
+    fireboy.hitTimer = fireboy.hitTime
     firebar.updateFire(100)
     fireboy.previousPositionY = nil
     fireboy.pos_frame = 1

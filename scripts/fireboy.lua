@@ -35,7 +35,7 @@ fireboy.frames = {
 fireboy.elapsedTime = 0
 fireboy.frameTime = 0.3
 fireboy.launchTime = 3
-fireboy.jumpTime = 0.75
+fireboy.jumpTime = 0.5
 
 -- Some miscellaneous variables
 fireboy.previousPositionY = nil
@@ -146,7 +146,7 @@ function fireboy.updateFall(dt)
     else
         for i, platform in ipairs(platformGenerator.platforms) do
             if platform.y > fireboy.previousPositionY and platform.y < fireboy.y then
-                if fireboy.x > platform.x and fireboy.x < platform.x + platform.img:getWidth() then
+                if fireboy.x+4 > platform.x and fireboy.x-4 < platform.x + platform.img:getWidth() then
                     fireboy.accX, fireboy.accY, fireboy.velX, fireboy.velY = 0, 0, 0, 0
                     fireboy.y = platform.y
                     if platform.type == base_platform.water then

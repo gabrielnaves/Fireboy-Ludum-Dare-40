@@ -17,8 +17,10 @@ function love.load(arg)
 end
 
 function love.update(dt)
+    input:update(dt)
     platformGenerator.update(dt)
     fireboy.update(dt)
+    gamestate.update(dt)
     camera.update()
 end
 
@@ -36,6 +38,7 @@ function love.draw(dt)
     -- End of camera transformation
 
     frame.draw(dt)
+    gamestate.draw(dt)
 
     if DEBUG_MODE then
         love.graphics.print('Fire: ' .. tostring(fireboy.fire), 5, 0)

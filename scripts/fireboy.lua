@@ -94,7 +94,6 @@ function fireboy.updateInitialState(dt)
     if input:actionButtonDown() then
         fireboy.state = fireboy.states.launch
         fireboy.updateFunction = fireboy.updateLaunch
-        gamestate.state = gamestate.states.ingame
     end
 end
 
@@ -208,14 +207,24 @@ function fireboy.updateAscend(dt)
     end
 end
 
+function fireboy.updateDead(dt)
+    fireboy.pos_frame = 2
+end
+
 function fireboy.update(dt)
     fireboy.updateFunction(dt)
     -- update flip
     if fireboy.velX > 0 then flip = false elseif fireboy.velX < 0 then flip = true end
+    -- check for death by fall
+    if (fireboy.y > camera.y + 640 + 60) or fireboy.fire <= 0 then
+        fireboy.state = fireboy.states.dead
+        fireboy.updateFunction = fireboy.updateDead
+    end
 end
 
 -- State data
-fireboy.states = { initial = "Initial", launch = "Launch", float = "Float", fall = "Fall", ready = "Ready", ascend = "Ascend" }
+fireboy.states = { initial = "Initial", launch = "Launch", float = "Float",
+                   fall = "Fall", ready = "Ready", ascend = "Ascend", dead = "Dead"}
 fireboy.state = fireboy.states.initial
 fireboy.updateFunction = fireboy.updateInitialState
 

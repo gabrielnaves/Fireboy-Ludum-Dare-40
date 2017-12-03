@@ -15,14 +15,20 @@ function input:actionButton()
     return love.keyboard.isDown('space')
 end
 
-input.wasDown = false
 function input:actionButtonDown()
+    return input.actionDown
+end
+
+input.wasDown = false
+input.actionDown = false
+function input:update(dt)
     if input:actionButton() and not input.wasDown then
         input.wasDown = true
-        return true
-    end
-    if not input:actionButton() and input.wasDown then
+        input.actionDown = true
+    elseif not input:actionButton() and input.wasDown then
         input.wasDown = false
+        input.actionDown = false
+    else
+        input.actionDown = false
     end
-    return false
 end

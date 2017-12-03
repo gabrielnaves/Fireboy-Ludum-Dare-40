@@ -44,7 +44,7 @@ fireboy.hitTimer = fireboy.hitTime
 fireboy.blinkTimer = 0
 fireboy.blinkTime = 0.2
 fireboy.dashTimer = 0
-fireboy.dashCooldown = 2
+fireboy.dashCooldown = 0.9
 fireboy.dashDamageTimer = 0
 fireboy.dashDamageTime = 0.75
 
@@ -268,6 +268,7 @@ function fireboy.update(dt)
             if enemyCollision:isCollidingWithFireboy(enemy) then
                 if enemy.y-fireboy.y > base_enemy.radius / 2 then -- Jumping on enemy, ascend
                     enemyGenerator.killEnemy(i)
+                    score.enemiesKilled = score.enemiesKilled + 1
                     firebar.updateFire(firebar.fire + fireboy.fireBonus)
                     fireboy.state = fireboy.states.ascend
                     fireboy.updateFunction = fireboy.updateAscend
@@ -275,6 +276,7 @@ function fireboy.update(dt)
                     break
                 elseif fireboy.dashDamageTimer < fireboy.dashDamageTime then -- Just dashed, kill enemy
                     enemyGenerator.killEnemy(i)
+                    score.enemiesKilled = score.enemiesKilled + 1
                     firebar.updateFire(firebar.fire + fireboy.fireBonus / 4)
                 else -- Damaged by enemy, fall
                     if firebar.fire <= 100 then firebar.updateFire(firebar.fire - 50)
@@ -333,6 +335,7 @@ function fireboy.blastEnemies()
         if gamemath:distance(fireboy.x, fireboy.y, enemy.x, enemy.y) < fireboy.blastZone then
             if enemy.y-fireboy.y > 0 then
                 enemyGenerator.killEnemy(i)
+                score.enemiesKilled = score.enemiesKilled + 1
                 fireboy.blastEnemies()
             end
         end

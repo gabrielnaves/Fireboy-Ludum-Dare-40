@@ -4,8 +4,6 @@ require("scripts.base_enemy")
 require("scripts.enemy_collision")
 require("scripts.game_math")
 
-DEBUG_MODE = true
-
 function love.load(arg)
     camera = require("scripts.camera")
     platformGenerator = require("scripts.platform_generator")
@@ -17,6 +15,7 @@ function love.load(arg)
     fireboy = require("scripts.fireboy")
     gamestate = require("scripts.gamestate")
     firebar = require("scripts.firebar")
+    score = require("scripts.score")
 
     platformGenerator.start()
 end
@@ -28,6 +27,7 @@ function love.update(dt)
     fireboy.update(dt)
     gamestate.update(dt)
     camera.update()
+    score.update(dt)
 end
 
 function love.draw(dt)
@@ -47,11 +47,5 @@ function love.draw(dt)
     frame.draw(dt)
     firebar.draw(dt)
     gamestate.draw(dt)
-
-    if DEBUG_MODE then
-        love.graphics.print('Fire: ' .. tostring(firebar.fire), 5, 40)
-        love.graphics.print('Gamestate state: ' .. tostring(gamestate.state), 5, 50)
-        love.graphics.print('Fireboy state: ' .. tostring(fireboy.state), 5, 60)
-        love.graphics.print('Enemy amount: ' .. tostring(enemyGenerator.enemyAmount), 5, 70)
-    end
+    score.draw(dt)
 end

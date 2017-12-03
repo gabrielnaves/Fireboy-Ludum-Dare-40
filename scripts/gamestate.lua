@@ -26,6 +26,7 @@ function gamestate.updateDead(dt)
         enemyGenerator.reset()
         camera.reset()
         platformGenerator.reset()
+        score.reset()
         gamestate.updateState = gamestate.updateBegin
         gamestate.drawState = gamestate.drawBegin
         gamestate.state = gamestate.states.begin

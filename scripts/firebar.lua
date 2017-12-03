@@ -9,6 +9,7 @@ function firebar.updateFire(fireAmount)
     firebar.fire = fireAmount
     if firebar.fire > firebar.maxFire then firebar.fire = firebar.maxFire end
     if firebar.fire < 0 then firebar.fire = 0 end
+    firebar.fire = math.floor(firebar.fire)
 end
 
 function firebar.draw(dt)

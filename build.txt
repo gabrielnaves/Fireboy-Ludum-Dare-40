@@ -3,5 +3,5 @@ Zip game files to Fireboy.zip, run
 > rm Fireboy.zip
 
 On an admin command pront (NOT powershell):
-> cd bin
+> cd C:\Users\gabri_000\Documents\GitHub\Love Fireboy\bin
 > copy /b love.exe+Fireboy.love Fireboy.exe

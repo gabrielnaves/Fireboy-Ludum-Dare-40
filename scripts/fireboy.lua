@@ -50,6 +50,7 @@ fireboy.dashDamageTime = 0.2
 -- Some miscellaneous variables
 fireboy.previousPositionY = nil
 fireboy.flip = false
+fireboy.blastZone = 100
 
 -- Fire variables
 fireboy.dashCost = 25
@@ -143,11 +144,12 @@ function fireboy.updateFloat(dt)
         fireboy.updateFunction = fireboy.updateFall
         fireboy.previousPositionY = fireboy.y
     elseif input:actionButtonDown() and fireboy.dashTimer > fireboy.dashTime then -- Dash!
-         firebar.updateFire(firebar.fire - fireboy.dashCost)
-         fireboy.state = fireboy.states.ascend
-         fireboy.updateFunction = fireboy.updateAscend
-         fireboy.dashTimer = 0
-         fireboy.dashDamageTimer = 0
+        fireboy.blastEnemies()
+        firebar.updateFire(firebar.fire - fireboy.dashCost)
+        fireboy.state = fireboy.states.ascend
+        fireboy.updateFunction = fireboy.updateAscend
+        fireboy.dashTimer = 0
+        fireboy.dashDamageTimer = 0
     end
 end
 
@@ -161,6 +163,7 @@ function fireboy.updateFall(dt)
     -- State update
     if input:actionButtonDown() and fireboy.dashTimer > fireboy.dashTime then -- Dash!
         firebar.updateFire(firebar.fire - fireboy.dashCost)
+        fireboy.blastEnemies()
         fireboy.state = fireboy.states.ascend
         fireboy.updateFunction = fireboy.updateAscend
         fireboy.dashTimer = 0
@@ -205,10 +208,12 @@ function fireboy.updateReady(dt)
     end
     -- State update
     if input:actionButtonDown() then -- Jumping off a fire platform
+        fireboy.blastEnemies()
         fireboy.state = fireboy.states.ascend
         fireboy.updateFunction = fireboy.updateAscend
         fireboy.animationTimer = 0
         fireboy.jumpTimer = 0
+        fireboy.dashDamageTimer = 0
     end
 end
 
@@ -227,6 +232,7 @@ function fireboy.updateAscend(dt)
         fireboy.jumpTimer = 0
     elseif input:actionButtonDown() and fireboy.dashTimer > fireboy.dashTime then -- Dash!
         firebar.updateFire(firebar.fire - fireboy.dashCost)
+        fireboy.blastEnemies()
         fireboy.jumpTimer = 0
         fireboy.dashTimer = 0
         fireboy.dashDamageTimer = 0
@@ -261,7 +267,7 @@ function fireboy.update(dt)
                     break
                 elseif fireboy.dashDamageTimer < fireboy.dashDamageTime then -- Just dashed, kill enemy
                     enemyGenerator.killEnemy(i)
-                    firebar.updateFire(firebar.fire + fireboy.fireBonus / 3)
+                    firebar.updateFire(firebar.fire + fireboy.fireBonus / 4)
                 else -- Damaged by enemy, fall
                     if firebar.fire <= 50 then firebar.updateFire(0) end
                     firebar.updateFire(firebar.fire * fireboy.waterDamage)
@@ -280,6 +286,16 @@ function fireboy.update(dt)
     if fireboy.blinkTimer > fireboy.blinkTime then fireboy.blinkTimer = 0 end
     fireboy.dashTimer = fireboy.dashTimer + dt
     fireboy.dashDamageTimer = fireboy.dashDamageTimer + dt
+end
+
+function fireboy.blastEnemies()
+    for i, enemy in ipairs(enemyGenerator.enemies) do -- Kill enemies around
+        if gamemath:distance(fireboy.x, fireboy.y, enemy.x, enemy.y) < fireboy.blastZone then
+            if enemy.y-fireboy.y > base_enemy.radius / 2 then
+                enemyGenerator.killEnemy(i)
+            end
+        end
+    end
 end
 
 -- State data

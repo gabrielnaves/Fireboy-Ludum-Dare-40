@@ -9,7 +9,7 @@ On an admin command pront (NOT powershell):
 
 Raw commands:
 
-cd C:\Users\gabri_000\Documents\GitHub\Love Fireboy\bin
+cd C:\Users\gabri_000\Documents\GitHub\Love Fireboy
 cp Fireboy.zip bin\Fireboy.love
 rm Fireboy.zip
 cd bin

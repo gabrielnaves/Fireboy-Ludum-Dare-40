@@ -150,6 +150,7 @@ function fireboy.updateFloat(dt)
         fireboy.updateFunction = fireboy.updateFall
         fireboy.previousPositionY = fireboy.y
     elseif input:actionButtonDown() and fireboy.dashTimer > fireboy.dashCooldown then -- Dash!
+        fireboy.makeBlastAnim()
         fireboy.blastEnemies()
         firebar.updateFire(firebar.fire - fireboy.dashCost)
         fireboy.state = fireboy.states.ascend
@@ -168,6 +169,7 @@ function fireboy.updateFall(dt)
     fireboy.updatePosition(dt)
     -- State update
     if input:actionButtonDown() and fireboy.dashTimer > fireboy.dashCooldown then -- Dash!
+        fireboy.makeBlastAnim()
         firebar.updateFire(firebar.fire - fireboy.dashCost)
         fireboy.blastEnemies()
         fireboy.state = fireboy.states.ascend
@@ -215,6 +217,7 @@ function fireboy.updateReady(dt)
     end
     -- State update
     if input:actionButtonDown() then -- Jumping off a fire platform
+        fireboy.makeBlastAnim()
         fireboy.blastEnemies()
         fireboy.state = fireboy.states.ascend
         fireboy.updateFunction = fireboy.updateAscend
@@ -239,6 +242,7 @@ function fireboy.updateAscend(dt)
         fireboy.updateFunction = fireboy.updateFloat
         fireboy.jumpTimer = 0
     elseif input:actionButtonDown() and fireboy.dashTimer > fireboy.dashCooldown then -- Dash!
+        fireboy.makeBlastAnim()
         firebar.updateFire(firebar.fire - fireboy.dashCost)
         fireboy.blastEnemies()
         fireboy.jumpTimer = 0
@@ -340,6 +344,10 @@ function fireboy.blastEnemies()
             end
         end
     end
+end
+
+function fireboy.makeBlastAnim()
+    animationManager.newAnimation(fireBlast.animIndex, fireboy.x, fireboy.y)
 end
 
 -- State data

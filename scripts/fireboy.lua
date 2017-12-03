@@ -42,6 +42,8 @@ fireboy.hitTime = 0.8
 fireboy.hitTimer = fireboy.hitTime
 fireboy.blinkTimer = 0
 fireboy.blinkTime = 0.2
+fireboy.dashTimer = 0
+fireboy.dashTime = 2
 
 -- Some miscellaneous variables
 fireboy.previousPositionY = nil
@@ -138,10 +140,11 @@ function fireboy.updateFloat(dt)
         fireboy.state = fireboy.states.fall
         fireboy.updateFunction = fireboy.updateFall
         fireboy.previousPositionY = fireboy.y
-    elseif input:actionButtonDown() then
+    elseif input:actionButtonDown() and fireboy.dashTimer > fireboy.dashTime then -- Dash!
          firebar.updateFire(firebar.fire - fireboy.dashCost)
          fireboy.state = fireboy.states.ascend
          fireboy.updateFunction = fireboy.updateAscend
+         fireboy.dashTimer = 0
     end
 end
 
@@ -153,10 +156,11 @@ function fireboy.updateFall(dt)
     fireboy.updateVelocity(dt)
     fireboy.updatePosition(dt)
     -- State update
-    if input:actionButtonDown() then
+    if input:actionButtonDown() and fireboy.dashTimer > fireboy.dashTime then -- Dash!
         firebar.updateFire(firebar.fire - fireboy.dashCost)
         fireboy.state = fireboy.states.ascend
         fireboy.updateFunction = fireboy.updateAscend
+        fireboy.dashTimer = 0
     else
         for i, platform in ipairs(platformGenerator.platforms) do
             if platform.y > fireboy.previousPositionY and platform.y < fireboy.y then
@@ -217,9 +221,10 @@ function fireboy.updateAscend(dt)
         fireboy.state = fireboy.states.float
         fireboy.updateFunction = fireboy.updateFloat
         fireboy.jumpTimer = 0
-    elseif input:actionButtonDown() then
+    elseif input:actionButtonDown() and fireboy.dashTimer > fireboy.dashTime then -- Dash!
         firebar.updateFire(firebar.fire - fireboy.dashCost)
         fireboy.jumpTimer = 0
+        fireboy.dashTimer = 0
     end
 end
 
@@ -262,9 +267,10 @@ function fireboy.update(dt)
             end
         end
     end
-    -- Update blink timer
+    -- Update blink and dash timers
     fireboy.blinkTimer = fireboy.blinkTimer + dt
     if fireboy.blinkTimer > fireboy.blinkTime then fireboy.blinkTimer = 0 end
+    fireboy.dashTimer = fireboy.dashTimer + dt
 end
 
 -- State data

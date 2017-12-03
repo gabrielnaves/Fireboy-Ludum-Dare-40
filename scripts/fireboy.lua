@@ -193,6 +193,7 @@ function fireboy.updateFall(dt)
                         fireboy.state = fireboy.states.ready
                         fireboy.updateFunction = fireboy.updateReady
                         fireboy.jumpTimer = 0
+                        fireboy.dashTimer = 0
                         fireboy.pos_frame = 1
                     end
                     break
@@ -228,6 +229,7 @@ function fireboy.updateAscend(dt)
     -- Motion update
     fireboy.accX = fireboy.movAcc * input:horizontalAxis()
     fireboy.velY = fireboy.jumpSpeed
+    if fireboy.dashTimer < fireboy.dashCooldown then fireboy.velY = 1.5*fireboy.velY end
     fireboy.updateVelocity(dt)
     fireboy.updatePosition(dt)
     -- State update
@@ -297,17 +299,31 @@ function fireboy.update(dt)
 end
 
 function fireboy.updateWithFire()
+    -- fireboy.movAcc = 1100
+    -- fireboy.jumpSpeed = -500
     if firebar.fire < firebar.maxFire / 5 then
+        fireboy.movAcc = 900
+        fireboy.jumpSpeed = -450
         fireboy.scale = 0.8
     elseif firebar.fire < firebar.maxFire * 2 / 5 then
+        fireboy.movAcc = 1100
+        fireboy.jumpSpeed = -500
         fireboy.scale = 1
     elseif firebar.fire < firebar.maxFire * 3 / 5 then
+        fireboy.movAcc = 1500
+        fireboy.jumpSpeed = -550
         fireboy.scale = 1.2
     elseif firebar.fire < firebar.maxFire * 4 / 5 then
+        fireboy.movAcc = 2000
+        fireboy.jumpSpeed = -600
         fireboy.scale = 1.3
     elseif firebar.fire < firebar.maxFire then
+        fireboy.movAcc = 2500
+        fireboy.jumpSpeed = -650
         fireboy.scale = 1.4
     else
+        fireboy.movAcc = 3000
+        fireboy.jumpSpeed = -700
         fireboy.scale = 1.6
     end
 end
@@ -317,6 +333,7 @@ function fireboy.blastEnemies()
         if gamemath:distance(fireboy.x, fireboy.y, enemy.x, enemy.y) < fireboy.blastZone then
             if enemy.y-fireboy.y > 0 then
                 enemyGenerator.killEnemy(i)
+                fireboy.blastEnemies()
             end
         end
     end

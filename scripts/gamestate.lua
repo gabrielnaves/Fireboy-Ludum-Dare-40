@@ -23,6 +23,7 @@ end
 function gamestate.updateDead(dt)
     if input:actionButtonDown() then
         fireboy.reset()
+        enemyGenerator.reset()
         camera.reset()
         platformGenerator.reset()
         gamestate.updateState = gamestate.updateBegin

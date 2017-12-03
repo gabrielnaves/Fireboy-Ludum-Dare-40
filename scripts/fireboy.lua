@@ -232,6 +232,7 @@ function fireboy.updateReady(dt)
         fireboy.updateFunction = fireboy.updateAscend
         fireboy.animationTimer = 0
         fireboy.jumpTimer = 0
+        fireboy.dashTimer = 0
         fireboy.dashDamageTimer = 0
     end
 end

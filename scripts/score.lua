@@ -38,10 +38,14 @@ function score.calculateScore(dt)
 end
 
 function score.draw(dt)
-    love.graphics.print('Distance: ' .. tostring(score.distance), 5, 25)
-    love.graphics.print('Enemies killed: ' .. tostring(score.enemiesKilled), 5, 37)
-    love.graphics.print('Fire time multiplier: ' .. tostring(score.multiplier), 5, 49)
-    love.graphics.print('Score: ' .. tostring(score.score), 5, 61)
+    if gamestate.state == gamestate.states.ingame then
+        love.graphics.print('Distance: ' .. tostring(score.distance), 5, 25)
+        love.graphics.print('Enemies killed: ' .. tostring(score.enemiesKilled), 5, 37)
+        love.graphics.print('Fire time multiplier: ' .. tostring(score.multiplier), 5, 49)
+        love.graphics.print('Score: ' .. tostring(score.score), 5, 61)
+    elseif gamestate.state == gamestate.states.dead then
+        love.graphics.print('Total score: ' .. tostring(score.score), 5, 25)
+    end
 end
 
 function score.reset()

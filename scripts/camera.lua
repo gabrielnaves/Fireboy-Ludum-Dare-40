@@ -1,7 +1,7 @@
 camera = {}
 
-camera.x = 0
-camera.y = 0
+camera.x, camera.realX = 0, 0
+camera.y, camera.realY = 0, 0
 
 camera.fireboyOffset = 400
 camera.maxReturn = 400
@@ -21,6 +21,7 @@ function camera.unset()
 end
 
 function camera.update(dt)
+    camera.x, camera.y = camera.realX, camera.realY
     if fireboy.y < camera.y + camera.fireboyOffset then
         camera.y = fireboy.y - camera.fireboyOffset
         camera.currentTopPosition = camera.y
@@ -31,6 +32,7 @@ function camera.update(dt)
             camera.y = camera.currentTopPosition + camera.maxReturn
         end
     end
+    camera.realX, camera.realY = camera.x, camera.y
     if camera.shaking then
         camera.x = camera.x + love.math.random(-2, 2)
         camera.y = camera.y + love.math.random(-3, 3)

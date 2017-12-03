@@ -44,12 +44,12 @@ function love.draw(dt)
     enemyGenerator.draw(dt)
     fireboy.draw(dt)
     animationManager.draw(dt)
+    frame.draw(dt)
+    firebar.draw(dt)
+    score.draw(dt)
 
     camera.unset()
     -- End of camera transformation
 
-    frame.draw(dt)
-    firebar.draw(dt)
     gamestate.draw(dt)
-    score.draw(dt)
 end

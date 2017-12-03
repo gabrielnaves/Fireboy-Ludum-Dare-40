@@ -39,7 +39,7 @@ function platformGenerator.update(dt)
     end
     -- Platform lifetime update
     for i, platform in ipairs(platformGenerator.platforms) do
-        if platform.y > camera.y + 640 then
+        if platform.y > camera.y + 640 + camera.maxReturn then
             table.remove(platformGenerator.platforms, i)
         end
     end

@@ -44,7 +44,7 @@ fireboy.flip = false
 -- Fire variables
 fireboy.fire = 100
 fireboy.dashCost = 25
-fireboy.waterDamage = 0.6
+fireboy.waterDamage = 0.5
 fireboy.fireBonus = 50
 
 function fireboy.draw(dt)
@@ -150,6 +150,7 @@ function fireboy.updateFall(dt)
                     fireboy.accX, fireboy.accY, fireboy.velX, fireboy.velY = 0, 0, 0, 0
                     fireboy.y = platform.y
                     if platform.type == base_platform.water then
+                        if fireboy.fire <= 50 then fireboy.fire = 0 end
                         fireboy.fire = fireboy.fire * fireboy.waterDamage
                         fireboy.state = fireboy.states.ascend
                         fireboy.updateFunction = fireboy.updateAscend

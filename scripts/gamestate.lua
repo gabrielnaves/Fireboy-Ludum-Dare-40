@@ -1,8 +1,9 @@
 gamestate = {}
 
 gamestate.states = { begin = "begin", ingame = "ingame", dead = "dead" }
-gamestate.begintext = love.graphics.newImage('assets/sprites/start_text.png')
-gamestate.endtext = love.graphics.newImage('assets/sprites/end_text.png')
+gamestate.beginText = love.graphics.newImage('assets/sprites/start_text.png')
+gamestate.gameOverText = love.graphics.newImage('assets/sprites/game_over_text.png')
+gamestate.endText = love.graphics.newImage('assets/sprites/end_text.png')
 
 function gamestate.updateBegin(dt)
     if input:actionButtonDown() then
@@ -38,13 +39,14 @@ function gamestate.update(dt)
 end
 
 function gamestate.drawBegin(dt)
-    love.graphics.draw(gamestate.begintext, 68, 422)
+    love.graphics.draw(gamestate.beginText, 68, 422)
 end
 
 function gamestate.drawInGame(dt) end
 
 function gamestate.drawDead(dt)
-    love.graphics.draw(gamestate.endtext, 60, 422)
+    love.graphics.draw(gamestate.gameOverText, 120, 388)
+    love.graphics.draw(gamestate.endText, 60, 422)
 end
 
 function gamestate.draw(dt)

@@ -14,8 +14,10 @@ function firebar.updateFire(fireAmount)
 end
 
 function firebar.draw(dt)
-    love.graphics.draw(firebar.backImg, 6, 2)
-    love.graphics.draw(firebar.frontImg, 10, 6, 0, firebar.fire / firebar.maxFire, 1)
+    if gamestate.state ~= gamestate.states.begin then
+        love.graphics.draw(firebar.backImg, 6, 2)
+        love.graphics.draw(firebar.frontImg, 10, 6, 0, firebar.fire / firebar.maxFire, 1)
+    end
 end
 
 return firebar

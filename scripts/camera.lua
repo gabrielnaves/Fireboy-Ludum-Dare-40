@@ -42,6 +42,7 @@ function camera.update(dt)
     else
         camera.x = 0
     end
+    if camera.y > 0 then camera.y = 0 end
 end
 
 function camera.shake()

@@ -122,6 +122,8 @@ function fireboy.updateInitialState(dt)
         fireboy.state = fireboy.states.launch
         fireboy.updateFunction = fireboy.updateLaunch
         fireboy.animationTimer = 0
+        camera.shake()
+        fireboy.makeBlastAnim()
     end
 end
 

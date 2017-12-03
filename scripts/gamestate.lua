@@ -1,6 +1,8 @@
 gamestate = {}
 
 gamestate.states = { begin = "begin", ingame = "ingame", dead = "dead" }
+gamestate.titleText = love.graphics.newImage('assets/sprites/title_text.png')
+gamestate.creditsText = love.graphics.newImage('assets/sprites/credits_text.png')
 gamestate.beginText = love.graphics.newImage('assets/sprites/start_text.png')
 gamestate.gameOverText = love.graphics.newImage('assets/sprites/game_over_text.png')
 gamestate.endText = love.graphics.newImage('assets/sprites/end_text.png')
@@ -39,6 +41,8 @@ function gamestate.update(dt)
 end
 
 function gamestate.drawBegin(dt)
+    love.graphics.draw(gamestate.titleText, 144, 54)
+    love.graphics.draw(gamestate.creditsText, 58, 102)
     love.graphics.draw(gamestate.beginText, 68, 422)
 end
 

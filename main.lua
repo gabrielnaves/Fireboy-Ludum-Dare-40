@@ -1,6 +1,8 @@
 require("scripts.platform")
 require("scripts.game_input")
 require("scripts.base_enemy")
+require("scripts.enemy_collision")
+require("scripts.game_math")
 
 DEBUG_MODE = true
 

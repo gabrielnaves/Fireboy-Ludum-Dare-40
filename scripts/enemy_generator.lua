@@ -27,7 +27,11 @@ end
 
 function enemyGenerator.updateEnemyArray(dt)
     for i, enemy in ipairs(enemyGenerator.enemies) do
-        base_enemy.update(dt, enemy)
+        if enemy.y - camera.y > 640*3 then
+            enemyGenerator.killEnemy(i)
+        else
+            base_enemy.update(dt, enemy, i)
+        end
     end
 end
 
@@ -41,6 +45,11 @@ function enemyGenerator.reset()
     enemyGenerator.enemyGenTimer = 0
     enemyGenerator.enemies = {}
     enemyGenerator.enemyAmount = 0
+end
+
+function enemyGenerator.killEnemy(i)
+    table.remove(enemyGenerator.enemies, i)
+    enemyGenerator.enemyAmount = enemyGenerator.enemyAmount - 1
 end
 
 return enemyGenerator

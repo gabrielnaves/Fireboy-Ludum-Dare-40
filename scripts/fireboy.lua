@@ -46,6 +46,10 @@ fireboy.dashCost = 25
 fireboy.waterDamage = 0.5
 fireboy.fireBonus = 50
 
+-- Collision data
+fireboy.boxWidth = 20
+fireboy.boxHeight = 36
+
 function fireboy.draw(dt)
     local frame_index = fireboy.pos_frame
     if fireboy.flip then frame_index = frame_index + 5 end
@@ -211,6 +215,7 @@ function fireboy.updateDead(dt)
 end
 
 function fireboy.update(dt)
+    -- Update state
     fireboy.updateFunction(dt)
     -- update flip
     if fireboy.velX > 0 then fireboy.flip = false elseif fireboy.velX < 0 then fireboy.flip = true end
@@ -218,6 +223,21 @@ function fireboy.update(dt)
     if (fireboy.y > camera.y + 640 + 60) or firebar.fire <= 0 then
         fireboy.state = fireboy.states.dead
         fireboy.updateFunction = fireboy.updateDead
+    end
+    -- Update collision with enemies
+    if gamestate.state == gamestate.states.ingame then
+        for i, enemy in ipairs(enemyGenerator.enemies) do
+            if enemyCollision:isCollidingWithFireboy(enemy) then
+                if enemy.y-fireboy.y > base_enemy.radius / 2 then -- Jumping on enemy, ascend
+                    enemyGenerator.killEnemy(i)
+                    firebar.updateFire(firebar.fire + fireboy.fireBonus)
+                    fireboy.state = fireboy.states.ascend
+                    fireboy.updateFunction = fireboy.updateAscend
+                    fireboy.elapsedTime = 0
+                    break
+                end
+            end
+        end
     end
 end
 

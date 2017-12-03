@@ -1,8 +1,10 @@
 Fireboy is an small, endless jumping game inspired by doodle jump and downwell. The higher you go, the better your score.
 
-Move fireboy with A, D or right/left arrow keys. You can dash in midair using space key, but it'll cost some of your fire. You die if your fire reaches zero, or if you fall too far.
+Move fireboy with A, D or right/left arrow keys. You can dash in midair using Space key, but it'll cost some of your fire. You die if your fire reaches zero, or if you fall too far.
 
 You bounce off normal platforms, lose fire from water platforms and recovers fire from fire platforms. Jumping on top of enemies also gives you more fire.
+
+Bouncing is automatic, but fire platforms allow you to stop and wait. When you're ready, bounce off it with the action (Space key) button to execute a dash and kill any enemy in your way!
 
 The more fire you have, the more you can dash. If you manage to max out your fire meter, your score will be multiplied by the total duration that you kept your fire maxed.
 

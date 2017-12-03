@@ -12,6 +12,7 @@ function love.load(arg)
     floor = require("scripts.floor")
     fireboy = require("scripts.fireboy")
     gamestate = require("scripts.gamestate")
+    firebar = require("scripts.firebar")
 
 end
 
@@ -37,11 +38,12 @@ function love.draw(dt)
     -- End of camera transformation
 
     frame.draw(dt)
+    firebar.draw(dt)
     gamestate.draw(dt)
 
     if DEBUG_MODE then
-        love.graphics.print('Fire: ' .. tostring(fireboy.fire), 5, 0)
-        love.graphics.print('Gamestate state: ' .. tostring(gamestate.state), 5, 10)
-        love.graphics.print('Fireboy state: ' .. tostring(fireboy.state), 5, 20)
+        love.graphics.print('Fire: ' .. tostring(firebar.fire), 5, 40)
+        love.graphics.print('Gamestate state: ' .. tostring(gamestate.state), 5, 50)
+        love.graphics.print('Fireboy state: ' .. tostring(fireboy.state), 5, 60)
     end
 end

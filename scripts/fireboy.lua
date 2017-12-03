@@ -42,7 +42,6 @@ fireboy.previousPositionY = nil
 fireboy.flip = false
 
 -- Fire variables
-fireboy.fire = 100
 fireboy.dashCost = 25
 fireboy.waterDamage = 0.5
 fireboy.fireBonus = 50
@@ -124,7 +123,7 @@ function fireboy.updateFloat(dt)
         fireboy.updateFunction = fireboy.updateFall
         fireboy.previousPositionY = fireboy.y
     elseif input:actionButtonDown() then
-         fireboy.fire = fireboy.fire - fireboy.dashCost
+         firebar.updateFire(firebar.fire - fireboy.dashCost)
          fireboy.state = fireboy.states.ascend
          fireboy.updateFunction = fireboy.updateAscend
     end
@@ -139,7 +138,7 @@ function fireboy.updateFall(dt)
     fireboy.updatePosition(dt)
     -- State update
     if input:actionButtonDown() then
-        fireboy.fire = fireboy.fire - fireboy.dashCost
+        firebar.updateFire(firebar.fire - fireboy.dashCost)
         fireboy.state = fireboy.states.ascend
         fireboy.updateFunction = fireboy.updateAscend
     else
@@ -149,15 +148,15 @@ function fireboy.updateFall(dt)
                     fireboy.accX, fireboy.accY, fireboy.velX, fireboy.velY = 0, 0, 0, 0
                     fireboy.y = platform.y
                     if platform.type == base_platform.water then
-                        if fireboy.fire <= 50 then fireboy.fire = 0 end
-                        fireboy.fire = fireboy.fire * fireboy.waterDamage
+                        if firebar.fire <= 50 then firebar.updateFire(0) end
+                        firebar.updateFire(firebar.fire * fireboy.waterDamage)
                         fireboy.state = fireboy.states.ascend
                         fireboy.updateFunction = fireboy.updateAscend
                     elseif platform.type == base_platform.normal then
                         fireboy.state = fireboy.states.ascend
                         fireboy.updateFunction = fireboy.updateAscend
                     else
-                        fireboy.fire = fireboy.fire + fireboy.fireBonus
+                        firebar.updateFire(firebar.fire + fireboy.fireBonus)
                         fireboy.state = fireboy.states.ready
                         fireboy.updateFunction = fireboy.updateReady
                         fireboy.elapsedTime = 0
@@ -202,7 +201,7 @@ function fireboy.updateAscend(dt)
         fireboy.updateFunction = fireboy.updateFloat
         fireboy.elapsedTime = 0
     elseif input:actionButtonDown() then
-        fireboy.fire = fireboy.fire - fireboy.dashCost
+        firebar.updateFire(firebar.fire - fireboy.dashCost)
         fireboy.elapsedTime = 0
     end
 end
@@ -216,7 +215,7 @@ function fireboy.update(dt)
     -- update flip
     if fireboy.velX > 0 then fireboy.flip = false elseif fireboy.velX < 0 then fireboy.flip = true end
     -- check for death by fall
-    if (fireboy.y > camera.y + 640 + 60) or fireboy.fire <= 0 then
+    if (fireboy.y > camera.y + 640 + 60) or firebar.fire <= 0 then
         fireboy.state = fireboy.states.dead
         fireboy.updateFunction = fireboy.updateDead
     end
@@ -234,7 +233,7 @@ function fireboy.reset()
     fireboy.velX, fireboy.velY = 0, 0
     fireboy.accX, fireboy.accY = 0, 0
     fireboy.elapsedTime = 0
-    fireboy.fire = 100
+    firebar.updateFire(100)
     fireboy.previousPositionY = nil
     fireboy.pos_frame = 1
     fireboy.flip = false

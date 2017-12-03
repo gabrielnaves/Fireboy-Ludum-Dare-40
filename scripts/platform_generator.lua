@@ -13,7 +13,11 @@ function platformGenerator.start()
 end
 
 function platformGenerator.generateDistanceToNext()
-    platformGenerator.distanceToNext = love.math.random(3) * 100
+    if firebar.fire > firebar.maxFire * 4 / 5 then
+        platformGenerator.distanceToNext = love.math.random(4) * 100
+    else
+        platformGenerator.distanceToNext = love.math.random(3) * 100
+    end
 end
 
 function platformGenerator.generatePlatforms()

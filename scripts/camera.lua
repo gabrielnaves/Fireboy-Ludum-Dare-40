@@ -54,6 +54,7 @@ end
 
 function camera.reset()
     camera.x, camera.y = 0, 0
+    camera.realX, camera.realY = 0, 0
     camera.currentTopPosition = 0
     camera.shakeTimer = 0
     camera.shaking = false

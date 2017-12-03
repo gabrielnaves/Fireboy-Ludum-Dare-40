@@ -6,7 +6,7 @@ You bounce off normal platforms, lose fire from water platforms and recovers fir
 
 Bouncing is automatic, but fire platforms allow you to stop and wait. When you're ready, bounce off it with the action (Space key) button to execute a dash and kill any enemy in your way!
 
-The more fire you have, the more you can dash. If you manage to max out your fire meter, your score will be multiplied by the total duration that you kept your fire maxed.
+Fireboy grows bigger and faster as you fill the fire meter. The more fire you have, the more you can dash. If you manage to max out your fire meter, your score will be multiplied by the total duration that you kept your fire maxed.
 
 Be careful, though, the more fire you have, the faster enemies will spawn! Fire platforms will not be generated as frequently when your fire meter is high.
 

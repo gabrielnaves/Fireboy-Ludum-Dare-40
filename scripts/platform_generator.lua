@@ -13,7 +13,7 @@ function platformGenerator.start()
 end
 
 function platformGenerator.generateDistanceToNext()
-    platformGenerator.distanceToNext = 100
+    platformGenerator.distanceToNext = love.math.random(3) * 100
 end
 
 function platformGenerator.generatePlatforms()
@@ -26,7 +26,7 @@ function platformGenerator.generatePlatforms()
 end
 
 function platformGenerator.generatePlatformAt(currentPos)
-    local newPlatform = createPlatform()
+    local newPlatform = base_platform.createPlatform()
     newPlatform.x = love.math.random(6, 360 - newPlatform.img:getWidth() - 6)
     newPlatform.y = currentPos
     table.insert(platformGenerator.platforms, newPlatform)

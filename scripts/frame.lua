@@ -1,6 +1,6 @@
 frame = {}
 frame.img = love.graphics.newImage('assets/sprites/frame.png')
-frame.x = 0
+frame.x = -20
 frame.y = 0
 
 function frame.draw(dt)

@@ -28,7 +28,7 @@ function love.update(dt)
     enemyGenerator.update(dt)
     fireboy.update(dt)
     gamestate.update(dt)
-    camera.update()
+    camera.update(dt)
     score.update(dt)
     animationManager.update(dt)
 end

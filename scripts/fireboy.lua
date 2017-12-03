@@ -152,6 +152,7 @@ function fireboy.updateFloat(dt)
         fireboy.updateFunction = fireboy.updateFall
         fireboy.previousPositionY = fireboy.y
     elseif input:actionButtonDown() and fireboy.dashTimer > fireboy.dashCooldown then -- Dash!
+        camera.shake()
         fireboy.makeBlastAnim()
         fireboy.blastEnemies()
         firebar.updateFire(firebar.fire - fireboy.dashCost)
@@ -171,6 +172,7 @@ function fireboy.updateFall(dt)
     fireboy.updatePosition(dt)
     -- State update
     if input:actionButtonDown() and fireboy.dashTimer > fireboy.dashCooldown then -- Dash!
+        camera.shake()
         fireboy.makeBlastAnim()
         firebar.updateFire(firebar.fire - fireboy.dashCost)
         fireboy.blastEnemies()
@@ -219,6 +221,7 @@ function fireboy.updateReady(dt)
     end
     -- State update
     if input:actionButtonDown() then -- Jumping off a fire platform
+        camera.shake()
         fireboy.makeBlastAnim()
         fireboy.blastEnemies()
         fireboy.state = fireboy.states.ascend
@@ -244,6 +247,7 @@ function fireboy.updateAscend(dt)
         fireboy.updateFunction = fireboy.updateFloat
         fireboy.jumpTimer = 0
     elseif input:actionButtonDown() and fireboy.dashTimer > fireboy.dashCooldown then -- Dash!
+        camera.shake()
         fireboy.makeBlastAnim()
         firebar.updateFire(firebar.fire - fireboy.dashCost)
         fireboy.blastEnemies()
@@ -273,6 +277,7 @@ function fireboy.update(dt)
         for i, enemy in ipairs(enemyGenerator.enemies) do
             if enemyCollision:isCollidingWithFireboy(enemy) then
                 if enemy.y-fireboy.y > base_enemy.radius / 2 then -- Jumping on enemy, ascend
+                    camera.shake()
                     enemyGenerator.killEnemy(i)
                     score.enemiesKilled = score.enemiesKilled + 1
                     firebar.updateFire(firebar.fire + fireboy.fireBonus)
@@ -281,10 +286,12 @@ function fireboy.update(dt)
                     fireboy.jumpTimer = 0
                     break
                 elseif fireboy.dashDamageTimer < fireboy.dashDamageTime then -- Just dashed, kill enemy
+                    camera.shake()
                     enemyGenerator.killEnemy(i)
                     score.enemiesKilled = score.enemiesKilled + 1
                     firebar.updateFire(firebar.fire + fireboy.fireBonus / 4)
                 else -- Damaged by enemy, fall
+                    camera.shake()
                     if firebar.fire <= 100 then firebar.updateFire(firebar.fire - 50)
                     else firebar.updateFire(firebar.fire * fireboy.waterDamage) end
                     fireboy.hitTimer = 0

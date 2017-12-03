@@ -8,7 +8,7 @@ base_enemy.kp = 0.8
 -- Image data
 base_enemy.img = love.graphics.newImage('assets/sprites/enemy.png')
 base_enemy.num_frames = 8
-base_enemy.pos_frame = 1
+base_enemy.start_frame = 1
 base_enemy.frame_width = base_enemy.img:getWidth() / base_enemy.num_frames
 base_enemy.frame_height = base_enemy.img:getHeight()
 base_enemy.frames = {
@@ -32,7 +32,7 @@ function base_enemy:createEnemy(xPos, yPos)
         y = yPos,
         img = base_enemy.img,
         num_frames = base_enemy.num_frames,
-        pos_frame = base_enemy.pos_frame,
+        pos_frame = base_enemy.start_frame,
         frame_width = base_enemy.frame_width,
         frame_height = base_enemy.frame_height,
         frames = base_enemy.frames,
@@ -55,11 +55,6 @@ end
 function base_enemy.updatePosition(dt, enemy, i)
     enemy.x = enemy.x + enemy.velX * dt
     enemy.y = enemy.y + enemy.velY * dt
-    -- for i2, enemy2 in ipairs(enemyGenerator.enemies) do
-    --     if i ~= i2 then
-    --         enemyCollision:collide(enemy, enemy2)
-    --     end
-    -- end
 end
 
 function base_enemy.updateAnimation(dt, enemy)

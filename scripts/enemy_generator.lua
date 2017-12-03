@@ -6,7 +6,7 @@ enemyGenerator.enemyAmount = 0
 
 -- Timers
 enemyGenerator.initialDelayTimer = 0
-enemyGenerator.initialDelay = 5
+enemyGenerator.initialDelay = 4
 enemyGenerator.enemyGenTimer = 0
 enemyGenerator.startingGenTime = 4
 enemyGenerator.enemyGenTime = 4
@@ -65,6 +65,7 @@ function enemyGenerator.reset()
 end
 
 function enemyGenerator.killEnemy(i)
+    animationManager.newAnimation(enemyDeath.animIndex, enemyGenerator.enemies[i].x, enemyGenerator.enemies[i].y)
     table.remove(enemyGenerator.enemies, i)
     enemyGenerator.enemyAmount = enemyGenerator.enemyAmount - 1
 end

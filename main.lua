@@ -1,6 +1,7 @@
 require("scripts.game_input")
 require("scripts.base_platform")
 require("scripts.base_enemy")
+require("scripts.still_animation")
 require("scripts.enemy_collision")
 require("scripts.game_math")
 
@@ -16,18 +17,20 @@ function love.load(arg)
     gamestate = require("scripts.gamestate")
     firebar = require("scripts.firebar")
     score = require("scripts.score")
+    animationManager = require("scripts.animation_manager")
 
     platformGenerator.start()
 end
 
 function love.update(dt)
-    input:update(dt)
+    input.update(dt)
     platformGenerator.update(dt)
     enemyGenerator.update(dt)
     fireboy.update(dt)
     gamestate.update(dt)
     camera.update()
     score.update(dt)
+    animationManager.update(dt)
 end
 
 function love.draw(dt)
@@ -40,6 +43,7 @@ function love.draw(dt)
     platformGenerator.draw(dt)
     enemyGenerator.draw(dt)
     fireboy.draw(dt)
+    animationManager.draw(dt)
 
     camera.unset()
     -- End of camera transformation

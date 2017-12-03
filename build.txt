@@ -1,3 +1,9 @@
+In case anyone else reads this, this file does't describe
+the build procedure completely, it's only so I don't forget how
+it's done on my computer.
+
+https://love2d.org/wiki/Game_Distribution
+
 Zip game files to Fireboy.zip, run
 > cp Fireboy.zip bin\Fireboy.love
 > rm Fireboy.zip

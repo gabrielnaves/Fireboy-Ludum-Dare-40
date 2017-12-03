@@ -60,6 +60,4 @@ function platformGenerator.reset()
     platformGenerator.start()
 end
 
-platformGenerator.start()
-
 return platformGenerator

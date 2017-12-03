@@ -54,7 +54,7 @@ fireboy.blastZone = 140
 
 -- Fire variables
 fireboy.dashCost = 25
-fireboy.waterDamage = 0.5
+fireboy.waterDamage = 0.75
 fireboy.fireBonus = 50
 
 -- Collision data
@@ -183,7 +183,7 @@ function fireboy.updateFall(dt)
                         fireboy.state = fireboy.states.ascend
                         fireboy.updateFunction = fireboy.updateAscend
                     else -- Landed on a fire platform
-                        firebar.updateFire(firebar.fire + fireboy.fireBonus)
+                        firebar.updateFire(firebar.fire + fireboy.fireBonus*1.5)
                         fireboy.state = fireboy.states.ready
                         fireboy.updateFunction = fireboy.updateReady
                         fireboy.jumpTimer = 0

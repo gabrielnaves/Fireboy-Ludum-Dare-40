@@ -17,6 +17,8 @@ function love.load(arg)
     fireboy = require("scripts.fireboy")
     gamestate = require("scripts.gamestate")
     firebar = require("scripts.firebar")
+
+    platformGenerator.start()
 end
 
 function love.update(dt)

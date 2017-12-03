@@ -43,14 +43,14 @@ fireboy.hitTimer = fireboy.hitTime
 fireboy.blinkTimer = 0
 fireboy.blinkTime = 0.2
 fireboy.dashTimer = 0
-fireboy.dashTime = 2
+fireboy.dashCooldown = 2
 fireboy.dashDamageTimer = 0
-fireboy.dashDamageTime = 0.2
+fireboy.dashDamageTime = 0.75
 
 -- Some miscellaneous variables
 fireboy.previousPositionY = nil
 fireboy.flip = false
-fireboy.blastZone = 100
+fireboy.blastZone = 140
 
 -- Fire variables
 fireboy.dashCost = 25
@@ -143,7 +143,7 @@ function fireboy.updateFloat(dt)
         fireboy.state = fireboy.states.fall
         fireboy.updateFunction = fireboy.updateFall
         fireboy.previousPositionY = fireboy.y
-    elseif input:actionButtonDown() and fireboy.dashTimer > fireboy.dashTime then -- Dash!
+    elseif input:actionButtonDown() and fireboy.dashTimer > fireboy.dashCooldown then -- Dash!
         fireboy.blastEnemies()
         firebar.updateFire(firebar.fire - fireboy.dashCost)
         fireboy.state = fireboy.states.ascend
@@ -161,7 +161,7 @@ function fireboy.updateFall(dt)
     fireboy.updateVelocity(dt)
     fireboy.updatePosition(dt)
     -- State update
-    if input:actionButtonDown() and fireboy.dashTimer > fireboy.dashTime then -- Dash!
+    if input:actionButtonDown() and fireboy.dashTimer > fireboy.dashCooldown then -- Dash!
         firebar.updateFire(firebar.fire - fireboy.dashCost)
         fireboy.blastEnemies()
         fireboy.state = fireboy.states.ascend
@@ -230,7 +230,7 @@ function fireboy.updateAscend(dt)
         fireboy.state = fireboy.states.float
         fireboy.updateFunction = fireboy.updateFloat
         fireboy.jumpTimer = 0
-    elseif input:actionButtonDown() and fireboy.dashTimer > fireboy.dashTime then -- Dash!
+    elseif input:actionButtonDown() and fireboy.dashTimer > fireboy.dashCooldown then -- Dash!
         firebar.updateFire(firebar.fire - fireboy.dashCost)
         fireboy.blastEnemies()
         fireboy.jumpTimer = 0
@@ -291,7 +291,7 @@ end
 function fireboy.blastEnemies()
     for i, enemy in ipairs(enemyGenerator.enemies) do -- Kill enemies around
         if gamemath:distance(fireboy.x, fireboy.y, enemy.x, enemy.y) < fireboy.blastZone then
-            if enemy.y-fireboy.y > base_enemy.radius / 2 then
+            if enemy.y-fireboy.y > 0 then
                 enemyGenerator.killEnemy(i)
             end
         end
@@ -313,7 +313,7 @@ function fireboy.reset()
     fireboy.launchTimer = 0
     fireboy.animationTimer = 0
     fireboy.hitTimer = fireboy.hitTime
-    firebar.updateFire(100)
+    firebar.updateFire(firebar.startingFire)
     fireboy.previousPositionY = nil
     fireboy.pos_frame = 1
     fireboy.flip = false

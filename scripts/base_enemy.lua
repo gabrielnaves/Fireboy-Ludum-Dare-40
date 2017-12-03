@@ -4,9 +4,6 @@ base_enemy = {}
 base_enemy.x = 180
 base_enemy.y = 608
 base_enemy.kp = 0.8
--- base_enemy.maxMagnitude = 400
--- base_enemy.velX, base_enemy.velY = 0, 0
--- base_enemy.accX, base_enemy.accY = 0, 0
 
 -- Image data
 base_enemy.img = love.graphics.newImage('assets/sprites/enemy.png')

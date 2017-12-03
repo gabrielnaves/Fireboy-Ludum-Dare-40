@@ -1,7 +1,8 @@
 firebar = {}
 
-firebar.fire = 100
+firebar.startingFire = 100
 firebar.maxFire = 500
+firebar.fire = firebar.startingFire
 firebar.backImg = love.graphics.newImage('assets/sprites/fireBar_back.png')
 firebar.frontImg = love.graphics.newImage('assets/sprites/fireBar_front.png')
 

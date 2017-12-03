@@ -51,5 +51,6 @@ function love.draw(dt)
         love.graphics.print('Gamestate state: ' .. tostring(gamestate.state), 5, 50)
         love.graphics.print('Fireboy state: ' .. tostring(fireboy.state), 5, 60)
         love.graphics.print('Enemy amount: ' .. tostring(enemyGenerator.enemyAmount), 5, 70)
+        love.graphics.print('Enemy gen time: ' .. tostring(enemyGenerator.enemyGenTime), 5, 80)
     end
 end

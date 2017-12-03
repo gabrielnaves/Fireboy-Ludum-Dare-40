@@ -63,10 +63,12 @@ fireboy.boxWidth = 20
 fireboy.boxHeight = 36
 
 function fireboy.draw(dt)
-    if fireboy.hitTimer > fireboy.hitTime then
-        fireboy.drawFireboy()
-    elseif fireboy.blinkTimer > fireboy.blinkTime / 2 then
-        fireboy.drawFireboy()
+    if fireboy.state ~= fireboy.states.dead then
+        if fireboy.hitTimer > fireboy.hitTime then
+            fireboy.drawFireboy()
+        elseif fireboy.blinkTimer > fireboy.blinkTime / 2 then
+            fireboy.drawFireboy()
+        end
     end
 end
 
@@ -252,7 +254,6 @@ function fireboy.updateAscend(dt)
 end
 
 function fireboy.updateDead(dt)
-    fireboy.pos_frame = 2
 end
 
 function fireboy.update(dt)
@@ -260,10 +261,11 @@ function fireboy.update(dt)
     fireboy.updateFunction(dt)
     -- update flip
     if fireboy.velX > 0 then fireboy.flip = false elseif fireboy.velX < 0 then fireboy.flip = true end
-    -- check for death by fall
-    if (fireboy.y > camera.y + 640 + 60) or firebar.fire <= 0 then
+    -- check for death by fall or zero fire
+    if ((fireboy.y > camera.y + 640 + 60) or firebar.fire <= 0) and fireboy.state ~= fireboy.states.dead then
         fireboy.state = fireboy.states.dead
         fireboy.updateFunction = fireboy.updateDead
+        animationManager.newAnimation(fireboyDeath.animIndex, fireboy.x, fireboy.y)
     end
     -- Update collision with enemies
     fireboy.hitTimer = fireboy.hitTimer + dt

@@ -44,15 +44,38 @@ fireBlast.frames = {
     love.graphics.newQuad(fireBlast.frame_width * 8, 0, fireBlast.frame_width, fireBlast.frame_height, fireBlast.img:getWidth(), fireBlast.img:getHeight()),
     love.graphics.newQuad(fireBlast.frame_width * 9, 0, fireBlast.frame_width, fireBlast.frame_height, fireBlast.img:getWidth(), fireBlast.img:getHeight()),
     love.graphics.newQuad(fireBlast.frame_width * 10, 0, fireBlast.frame_width, fireBlast.frame_height, fireBlast.img:getWidth(), fireBlast.img:getHeight()),
-    love.graphics.newQuad(fireBlast.frame_width * 11, 0, fireBlast.frame_width, fireBlast.frame_height, fireBlast.img:getWidth(), fireBlast.img:getHeight()),
 }
 fireBlast.animIndex = animationIndex
+animationIndex = animationIndex + 1
+
+-- Fireboy death
+fireboyDeath = {}
+fireboyDeath.img = love.graphics.newImage('assets/sprites/fireboy_death.png')
+fireboyDeath.num_frames = 8
+fireboyDeath.start_frame = 1
+fireboyDeath.frame_time = 0.05
+fireboyDeath.loop = false
+fireboyDeath.frame_width = fireboyDeath.img:getWidth() / fireboyDeath.num_frames
+fireboyDeath.frame_height = fireboyDeath.img:getHeight()
+fireboyDeath.pivot = { x = fireboyDeath.frame_width/2, y = fireboyDeath.frame_height }
+fireboyDeath.frames = {
+    love.graphics.newQuad(fireboyDeath.frame_width * 0, 0, fireboyDeath.frame_width, fireboyDeath.frame_height, fireboyDeath.img:getWidth(), fireboyDeath.img:getHeight()),
+    love.graphics.newQuad(fireboyDeath.frame_width * 1, 0, fireboyDeath.frame_width, fireboyDeath.frame_height, fireboyDeath.img:getWidth(), fireboyDeath.img:getHeight()),
+    love.graphics.newQuad(fireboyDeath.frame_width * 2, 0, fireboyDeath.frame_width, fireboyDeath.frame_height, fireboyDeath.img:getWidth(), fireboyDeath.img:getHeight()),
+    love.graphics.newQuad(fireboyDeath.frame_width * 3, 0, fireboyDeath.frame_width, fireboyDeath.frame_height, fireboyDeath.img:getWidth(), fireboyDeath.img:getHeight()),
+    love.graphics.newQuad(fireboyDeath.frame_width * 4, 0, fireboyDeath.frame_width, fireboyDeath.frame_height, fireboyDeath.img:getWidth(), fireboyDeath.img:getHeight()),
+    love.graphics.newQuad(fireboyDeath.frame_width * 5, 0, fireboyDeath.frame_width, fireboyDeath.frame_height, fireboyDeath.img:getWidth(), fireboyDeath.img:getHeight()),
+    love.graphics.newQuad(fireboyDeath.frame_width * 6, 0, fireboyDeath.frame_width, fireboyDeath.frame_height, fireboyDeath.img:getWidth(), fireboyDeath.img:getHeight()),
+    love.graphics.newQuad(fireboyDeath.frame_width * 7, 0, fireboyDeath.frame_width, fireboyDeath.frame_height, fireboyDeath.img:getWidth(), fireboyDeath.img:getHeight()),
+}
+fireboyDeath.animIndex = animationIndex
 animationIndex = animationIndex + 1
 
 -- Still animation table
 stillAnimation = {}
 table.insert(stillAnimation, enemyDeath)
 table.insert(stillAnimation, fireBlast)
+table.insert(stillAnimation, fireboyDeath)
 
 function newStillAnimation(animationIndex, xPos, yPos)
     return {

@@ -30,6 +30,7 @@ fireboy.frames = {
     love.graphics.newQuad(fireboy.frame_width * 8, 0, fireboy.frame_width, fireboy.frame_height, fireboy.img:getWidth(), fireboy.img:getHeight()),
     love.graphics.newQuad(fireboy.frame_width * 9, 0, fireboy.frame_width, fireboy.frame_height, fireboy.img:getWidth(), fireboy.img:getHeight())
 }
+fireboy.scale = 1
 
 -- Timers
 fireboy.animationTimer = 0
@@ -54,7 +55,7 @@ fireboy.blastZone = 140
 
 -- Fire variables
 fireboy.dashCost = 25
-fireboy.waterDamage = 0.75
+fireboy.waterDamage = 0.6
 fireboy.fireBonus = 50
 
 -- Collision data
@@ -62,15 +63,20 @@ fireboy.boxWidth = 20
 fireboy.boxHeight = 36
 
 function fireboy.draw(dt)
+    if fireboy.hitTimer > fireboy.hitTime then
+        fireboy.drawFireboy()
+    elseif fireboy.blinkTimer > fireboy.blinkTime / 2 then
+        fireboy.drawFireboy()
+    end
+end
+
+function fireboy.drawFireboy()
     local frame_index = fireboy.pos_frame
     if fireboy.flip then frame_index = frame_index + 5 end
-    if fireboy.hitTimer > fireboy.hitTime then
-        love.graphics.draw(fireboy.img, fireboy.frames[frame_index],
-                           fireboy.x - fireboy.frame_width / 2, fireboy.y - fireboy.frame_height)
-    elseif fireboy.blinkTimer > fireboy.blinkTime / 2 then
-        love.graphics.draw(fireboy.img, fireboy.frames[frame_index],
-                           fireboy.x - fireboy.frame_width / 2, fireboy.y - fireboy.frame_height)
-    end
+    love.graphics.draw(fireboy.img, fireboy.frames[frame_index], -- Image section
+                       fireboy.x - fireboy.frame_width * fireboy.scale / 2,
+                       fireboy.y - fireboy.frame_height * fireboy.scale, 0, -- Position section
+                       fireboy.scale, fireboy.scale) -- Scaling section
 end
 
 function fireboy.updatePosition(dt)
@@ -175,8 +181,8 @@ function fireboy.updateFall(dt)
                     fireboy.accX, fireboy.accY, fireboy.velX, fireboy.velY = 0, 0, 0, 0
                     fireboy.y = platform.y
                     if platform.type == base_platform.water then -- Landed on a water platform
-                        if firebar.fire <= 50 then firebar.updateFire(0) end
-                        firebar.updateFire(firebar.fire * fireboy.waterDamage)
+                        if firebar.fire <= 100 then firebar.updateFire(firebar.fire - 50)
+                        else firebar.updateFire(firebar.fire * fireboy.waterDamage) end
                         fireboy.state = fireboy.states.ascend
                         fireboy.updateFunction = fireboy.updateAscend
                     elseif platform.type == base_platform.normal then -- Landed on a normal platform
@@ -269,8 +275,8 @@ function fireboy.update(dt)
                     enemyGenerator.killEnemy(i)
                     firebar.updateFire(firebar.fire + fireboy.fireBonus / 4)
                 else -- Damaged by enemy, fall
-                    if firebar.fire <= 50 then firebar.updateFire(0) end
-                    firebar.updateFire(firebar.fire * fireboy.waterDamage)
+                    if firebar.fire <= 100 then firebar.updateFire(firebar.fire - 50)
+                    else firebar.updateFire(firebar.fire * fireboy.waterDamage) end
                     fireboy.hitTimer = 0
                     fireboy.state = fireboy.states.fall
                     fireboy.updateFunction = fireboy.updateFall
@@ -286,6 +292,24 @@ function fireboy.update(dt)
     if fireboy.blinkTimer > fireboy.blinkTime then fireboy.blinkTimer = 0 end
     fireboy.dashTimer = fireboy.dashTimer + dt
     fireboy.dashDamageTimer = fireboy.dashDamageTimer + dt
+    -- Update fireboy with fire
+    fireboy.updateWithFire()
+end
+
+function fireboy.updateWithFire()
+    if firebar.fire < firebar.maxFire / 5 then
+        fireboy.scale = 0.8
+    elseif firebar.fire < firebar.maxFire * 2 / 5 then
+        fireboy.scale = 1
+    elseif firebar.fire < firebar.maxFire * 3 / 5 then
+        fireboy.scale = 1.2
+    elseif firebar.fire < firebar.maxFire * 4 / 5 then
+        fireboy.scale = 1.3
+    elseif firebar.fire < firebar.maxFire then
+        fireboy.scale = 1.4
+    else
+        fireboy.scale = 1.6
+    end
 end
 
 function fireboy.blastEnemies()

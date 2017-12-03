@@ -1,11 +1,13 @@
 enemyCollision = {}
 
 function enemyCollision:isCollidingWithFireboy(enemy)
+    local width = fireboy.boxWidth * fireboy.scale
+    local height = fireboy.boxHeight * fireboy.scale
     local fireboyPoints = {
-        { x=(fireboy.x-fireboy.boxWidth/2), y=(fireboy.y-fireboy.boxHeight) }, -- Upper left
-        { x=(fireboy.x+fireboy.boxWidth/2), y=(fireboy.y-fireboy.boxHeight) }, -- Upper right
-        { x=(fireboy.x-fireboy.boxWidth/2), y=(fireboy.y) }, -- Bottom left
-        { x=(fireboy.x+fireboy.boxWidth/2), y=(fireboy.y) } -- Bottom right
+        { x=(fireboy.x-width/2), y=(fireboy.y-height) }, -- Upper left
+        { x=(fireboy.x+width/2), y=(fireboy.y-height) }, -- Upper right
+        { x=(fireboy.x-width/2), y=(fireboy.y) }, -- Bottom left
+        { x=(fireboy.x+width/2), y=(fireboy.y) } -- Bottom right
     }
     for i, point in ipairs(fireboyPoints) do
         if gamemath:distance(enemy.x, enemy.y, point.x, point.y) < base_enemy.radius then

@@ -15,8 +15,8 @@ function enemyGenerator.update(dt)
             enemyGenerator.enemyGenTimer = 0
             enemyGenerator.generateEnemy(love.math.random(-10, 370), camera.y - 32)
         end
+        enemyGenerator.updateEnemyArray(dt)
     end
-    enemyGenerator.updateEnemyArray(dt)
 end
 
 function enemyGenerator.generateEnemy(xPos, yPos)

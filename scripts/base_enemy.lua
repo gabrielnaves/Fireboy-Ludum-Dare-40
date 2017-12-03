@@ -3,10 +3,10 @@ base_enemy = {}
 -- Motion data
 base_enemy.x = 180
 base_enemy.y = 608
-base_enemy.movAcc = 1100
-base_enemy.velX, base_enemy.velY = 0, 0
-base_enemy.accX, base_enemy.accY = 0, 0
-base_enemy.maxMagnitude = 400
+base_enemy.kp = 0.8
+-- base_enemy.maxMagnitude = 400
+-- base_enemy.velX, base_enemy.velY = 0, 0
+-- base_enemy.accX, base_enemy.accY = 0, 0
 
 -- Image data
 base_enemy.img = love.graphics.newImage('assets/sprites/enemy.png')
@@ -44,7 +44,19 @@ function base_enemy:createEnemy(xPos, yPos)
 end
 
 function base_enemy.update(dt, enemy)
+    base_enemy.updateMotion(dt, enemy)
     base_enemy.updateAnimation(dt, enemy)
+end
+
+function base_enemy.updateMotion(dt, enemy)
+    local distX, distY = fireboy.x-enemy.x, fireboy.y-enemy.y
+    enemy.velX, enemy.velY = distX * base_enemy.kp, distY * base_enemy.kp
+    base_enemy.updatePosition(dt, enemy)
+end
+
+function base_enemy.updatePosition(dt, enemy)
+    enemy.x = enemy.x + enemy.velX * dt
+    enemy.y = enemy.y + enemy.velY * dt
 end
 
 function base_enemy.updateAnimation(dt, enemy)

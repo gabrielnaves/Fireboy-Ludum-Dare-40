@@ -32,7 +32,9 @@ fireboy.frames = {
 }
 
 -- Timers
-fireboy.elapsedTime = 0
+fireboy.animationTimer = 0
+fireboy.launchTimer = 0
+fireboy.jumpTimer = 0
 fireboy.frameTime = 0.3
 fireboy.launchTime = 3
 fireboy.jumpTime = 0.5
@@ -86,17 +88,18 @@ end
 
 function fireboy.updateInitialState(dt)
     -- Animation update
-    fireboy.elapsedTime = fireboy.elapsedTime + dt
-    if fireboy.elapsedTime > fireboy.frameTime then
+    fireboy.animationTimer = fireboy.animationTimer + dt
+    if fireboy.animationTimer > fireboy.frameTime then
         if fireboy.pos_frame == 1 then fireboy.pos_frame = 2
         elseif fireboy.pos_frame == 2 then fireboy.pos_frame = 1
         end
-        fireboy.elapsedTime = 0
+        fireboy.animationTimer = 0
     end
     -- State update
     if input:actionButtonDown() then
         fireboy.state = fireboy.states.launch
         fireboy.updateFunction = fireboy.updateLaunch
+        fireboy.animationTimer = 0
     end
 end
 
@@ -106,11 +109,11 @@ function fireboy.updateLaunch(dt)
     fireboy.velY = fireboy.launchSpeed
     fireboy.updatePosition(dt)
     -- State update
-    fireboy.elapsedTime = fireboy.elapsedTime + dt
-    if fireboy.elapsedTime > fireboy.launchTime then
+    fireboy.launchTimer = fireboy.launchTimer + dt
+    if fireboy.launchTimer > fireboy.launchTime then
         fireboy.state = fireboy.states.float
         fireboy.updateFunction = fireboy.updateFloat
-        fireboy.elapsedTime = 0
+        fireboy.launchTimer = 0
     end
 end
 
@@ -151,19 +154,19 @@ function fireboy.updateFall(dt)
                 if fireboy.x+4 > platform.x and fireboy.x-4 < platform.x + platform.img:getWidth() then
                     fireboy.accX, fireboy.accY, fireboy.velX, fireboy.velY = 0, 0, 0, 0
                     fireboy.y = platform.y
-                    if platform.type == base_platform.water then
+                    if platform.type == base_platform.water then -- Landed on a water platform
                         if firebar.fire <= 50 then firebar.updateFire(0) end
                         firebar.updateFire(firebar.fire * fireboy.waterDamage)
                         fireboy.state = fireboy.states.ascend
                         fireboy.updateFunction = fireboy.updateAscend
-                    elseif platform.type == base_platform.normal then
+                    elseif platform.type == base_platform.normal then -- Landed on a normal platform
                         fireboy.state = fireboy.states.ascend
                         fireboy.updateFunction = fireboy.updateAscend
-                    else
+                    else -- Landed on a fire platform
                         firebar.updateFire(firebar.fire + fireboy.fireBonus)
                         fireboy.state = fireboy.states.ready
                         fireboy.updateFunction = fireboy.updateReady
-                        fireboy.elapsedTime = 0
+                        fireboy.jumpTimer = 0
                         fireboy.pos_frame = 1
                     end
                     break
@@ -176,18 +179,19 @@ end
 
 function fireboy.updateReady(dt)
     -- Animation update
-    fireboy.elapsedTime = fireboy.elapsedTime + dt
-    if fireboy.elapsedTime > fireboy.frameTime then
+    fireboy.animationTimer = fireboy.animationTimer + dt
+    if fireboy.animationTimer > fireboy.frameTime then
         if fireboy.pos_frame == 1 then fireboy.pos_frame = 2
         elseif fireboy.pos_frame == 2 then fireboy.pos_frame = 1
         end
-        fireboy.elapsedTime = 0
+        fireboy.animationTimer = 0
     end
     -- State update
-    if input:actionButtonDown() then
+    if input:actionButtonDown() then -- Jumping off a fire platform
         fireboy.state = fireboy.states.ascend
         fireboy.updateFunction = fireboy.updateAscend
-        fireboy.elapsedTime = 0
+        fireboy.animationTimer = 0
+        fireboy.jumpTimer = 0
     end
 end
 
@@ -199,14 +203,14 @@ function fireboy.updateAscend(dt)
     fireboy.updateVelocity(dt)
     fireboy.updatePosition(dt)
     -- State update
-    fireboy.elapsedTime = fireboy.elapsedTime + dt
-    if fireboy.elapsedTime > fireboy.jumpTime then
+    fireboy.jumpTimer = fireboy.jumpTimer + dt
+    if fireboy.jumpTimer > fireboy.jumpTime then
         fireboy.state = fireboy.states.float
         fireboy.updateFunction = fireboy.updateFloat
-        fireboy.elapsedTime = 0
+        fireboy.jumpTimer = 0
     elseif input:actionButtonDown() then
         firebar.updateFire(firebar.fire - fireboy.dashCost)
-        fireboy.elapsedTime = 0
+        fireboy.jumpTimer = 0
     end
 end
 
@@ -233,8 +237,9 @@ function fireboy.update(dt)
                     firebar.updateFire(firebar.fire + fireboy.fireBonus)
                     fireboy.state = fireboy.states.ascend
                     fireboy.updateFunction = fireboy.updateAscend
-                    fireboy.elapsedTime = 0
+                    fireboy.jumpTimer = 0
                     break
+                else -- Damaged by enemy, fall
                 end
             end
         end
@@ -252,7 +257,9 @@ function fireboy.reset()
     fireboy.y = 608
     fireboy.velX, fireboy.velY = 0, 0
     fireboy.accX, fireboy.accY = 0, 0
-    fireboy.elapsedTime = 0
+    fireboy.jumpTimer = 0
+    fireboy.launchTimer = 0
+    fireboy.animationTimer = 0
     firebar.updateFire(100)
     fireboy.previousPositionY = nil
     fireboy.pos_frame = 1

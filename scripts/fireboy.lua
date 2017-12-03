@@ -49,7 +49,7 @@ fireboy.fireBonus = 50
 
 function fireboy.draw(dt)
     local frame_index = fireboy.pos_frame
-    if flip then frame_index = frame_index + 5 end
+    if fireboy.flip then frame_index = frame_index + 5 end
     love.graphics.draw(fireboy.img, fireboy.frames[frame_index],
                        fireboy.x - fireboy.frame_width / 2, fireboy.y - fireboy.frame_height)
 end
@@ -214,7 +214,7 @@ end
 function fireboy.update(dt)
     fireboy.updateFunction(dt)
     -- update flip
-    if fireboy.velX > 0 then flip = false elseif fireboy.velX < 0 then flip = true end
+    if fireboy.velX > 0 then fireboy.flip = false elseif fireboy.velX < 0 then fireboy.flip = true end
     -- check for death by fall
     if (fireboy.y > camera.y + 640 + 60) or fireboy.fire <= 0 then
         fireboy.state = fireboy.states.dead
@@ -227,5 +227,19 @@ fireboy.states = { initial = "Initial", launch = "Launch", float = "Float",
                    fall = "Fall", ready = "Ready", ascend = "Ascend", dead = "Dead"}
 fireboy.state = fireboy.states.initial
 fireboy.updateFunction = fireboy.updateInitialState
+
+function fireboy.reset()
+    fireboy.x = 180
+    fireboy.y = 608
+    fireboy.velX, fireboy.velY = 0, 0
+    fireboy.accX, fireboy.accY = 0, 0
+    fireboy.elapsedTime = 0
+    fireboy.fire = 100
+    fireboy.previousPositionY = nil
+    fireboy.pos_frame = 1
+    fireboy.flip = false
+    fireboy.state = fireboy.states.initial
+    fireboy.updateFunction = fireboy.updateInitialState
+end
 
 return fireboy

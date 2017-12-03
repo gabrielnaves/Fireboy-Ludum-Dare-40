@@ -29,4 +29,9 @@ function camera.update()
     end
 end
 
+function camera.reset()
+    camera.x, camera.y = 0, 0
+    camera.currentTopPosition = 0
+end
+
 return camera

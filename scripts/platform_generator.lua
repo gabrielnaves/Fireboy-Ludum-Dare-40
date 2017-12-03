@@ -51,4 +51,15 @@ function platformGenerator.draw(dt)
     end
 end
 
+function platformGenerator.reset()
+    platformGenerator.platforms = {}
+    platformGenerator.startPosition = -1000
+    platformGenerator.currentPosition = nil
+    platformGenerator.distanceToNext = nil
+    base_platform.lastGenerated = 2
+    platformGenerator.start()
+end
+
+platformGenerator.start()
+
 return platformGenerator

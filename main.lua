@@ -6,7 +6,6 @@ DEBUG_MODE = true
 function love.load(arg)
     camera = require("scripts.camera")
     platformGenerator = require("scripts.platform_generator")
-    platformGenerator.start()
 
     background = require("scripts.background")
     frame = require("scripts.frame")

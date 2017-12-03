@@ -21,6 +21,14 @@ function gamestate.updateInGame(dt)
 end
 
 function gamestate.updateDead(dt)
+    if input:actionButtonDown() then
+        fireboy.reset()
+        camera.reset()
+        platformGenerator.reset()
+        gamestate.updateState = gamestate.updateBegin
+        gamestate.drawState = gamestate.drawBegin
+        gamestate.state = gamestate.states.begin
+    end
 end
 
 function gamestate.update(dt)

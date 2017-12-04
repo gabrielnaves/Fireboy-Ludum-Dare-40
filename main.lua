@@ -4,6 +4,7 @@ require("scripts.base_enemy")
 require("scripts.still_animation")
 require("scripts.enemy_collision")
 require("scripts.game_math")
+require("scripts.number_draw")
 
 function love.load(arg)
     camera = require("scripts.camera")

@@ -1,5 +1,7 @@
 score = {}
 
+score.text = love.graphics.newImage('assets/sprites/score_text.png')
+
 score.score = 0
 score.distance = 0
 score.enemiesKilled = 0
@@ -39,10 +41,12 @@ end
 
 function score.draw(dt)
     if gamestate.state ~= gamestate.states.begin then
-        love.graphics.print('Distance: ' .. tostring(score.distance), camera.realX + 5, camera.realY + 25)
-        love.graphics.print('Enemies killed: ' .. tostring(score.enemiesKilled), camera.realX + 5, camera.realY + 37)
-        love.graphics.print('Fire time multiplier: ' .. tostring(score.multiplier), camera.realX + 5, camera.realY + 49)
-        love.graphics.print('Score: ' .. tostring(score.score), camera.realX + 5, camera.realY + 61)
+        love.graphics.draw(score.text, 6 + camera.realX, 26 + camera.realY)
+
+        drawInteger(score.distance, 98 + camera.realX, 26 + camera.realY)
+        drawInteger(score.enemiesKilled, 58 + camera.realX, 46 + camera.realY)
+        drawInteger(score.multiplier - 1, 124 + camera.realX, 66 + camera.realY)
+        drawInteger(score.score, 72 + camera.realX, 86 + camera.realY)
     end
 end
 

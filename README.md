@@ -15,3 +15,7 @@ The game uses the gameboy color palette, because I'm a programmer and I don't un
 The was developed using Love2d. All sprites were created by the me using Aseprite. Sadly, this game has no music or any audio whatsoever, but I intend on working on that post LD.
 
 Fireboy was created by Gabriel Naves, an aspiring game developer based in Brazil, for the Ludum Dare Compo #40
+
+## Running on linux
+1. Install [Love](https://bitbucket.org/rude/love/downloads/love_0.10.2ppa1_amd64.deb) engine from official website.
+2. Run with `love Fireboy.love`. If you're running from code, use `love .` on project folder instead.

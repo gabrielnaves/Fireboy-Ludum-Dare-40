@@ -1,21 +1,20 @@
+echo off
 rem Batch file to make .love file automatically
 rem ---
 rem Output file name can be sent as %1 command-line argument,
-rem default output file is bin/game.love
+rem default output file is bin\game.love
 rem ---
 rem Requires 7-zip installed and on PATH
 
-
-echo off
 title Make Love File
 setlocal
 
 set file_name=%1
-if "%1"=="" (set file_name=bin/game.love)
+if "%1"=="" (set file_name=bin\game.love)
 
 rem Gather required files
-set assets=assets/
-set scripts=scripts/
+set assets=assets\
+set scripts=scripts\
 set conf_file=conf.lua
 set main_file=main.lua
 

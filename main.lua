@@ -24,7 +24,7 @@ function love.load(arg)
 end
 
 function love.update(dt)
-    input.update(dt)
+    mouse:update()
     platformGenerator.update(dt)
     enemyGenerator.update(dt)
     fireboy.update(dt)

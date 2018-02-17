@@ -67,5 +67,5 @@ function base_enemy.updateAnimation(dt, enemy)
 end
 
 function base_enemy.draw(dt, enemy)
-    love.graphics.draw(enemy.img, enemy.frames[enemy.pos_frame], enemy.x-32, enemy.y-24)
+    graphics.drawq(enemy.img, enemy.frames[enemy.pos_frame], enemy.x-32, enemy.y-24)
 end

@@ -13,7 +13,7 @@ camera.shakeTime = 0.2
 
 function camera.set()
     love.graphics.push()
-    love.graphics.translate(-camera.x, -camera.y)
+    love.graphics.translate(-camera.x * graphics.scaling, -camera.y * graphics.scaling)
 end
 
 function camera.unset()

@@ -75,10 +75,10 @@ end
 function fireboy.drawFireboy()
     local frame_index = fireboy.pos_frame
     if fireboy.flip then frame_index = frame_index + 5 end
-    love.graphics.draw(fireboy.img, fireboy.frames[frame_index], -- Image section
-                       fireboy.x - fireboy.frame_width * fireboy.scale / 2,
-                       fireboy.y - fireboy.frame_height * fireboy.scale, 0, -- Position section
-                       fireboy.scale, fireboy.scale) -- Scaling section
+    graphics.drawqs(fireboy.img, fireboy.frames[frame_index], -- Image section
+                    fireboy.x - fireboy.frame_width * fireboy.scale / 2,
+                    fireboy.y - fireboy.frame_height * fireboy.scale, 0, -- Position section
+                    fireboy.scale, fireboy.scale) -- Scaling section
 end
 
 function fireboy.updatePosition(dt)

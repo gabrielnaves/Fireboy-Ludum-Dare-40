@@ -51,7 +51,7 @@ end
 
 function platformGenerator.draw(dt)
     for i, platform in ipairs(platformGenerator.platforms) do
-        love.graphics.draw(platform.img, platform.x, platform.y)
+        graphics.draw(platform.img, platform.x, platform.y)
     end
 end
 

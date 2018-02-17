@@ -24,8 +24,8 @@ end
 
 function animationManager.draw(dt)
     for i, anim in ipairs(animationManager.animations) do
-        love.graphics.draw(anim.img, anim.frames[anim.pos_frame],
-                           anim.x-anim.pivot.x, anim.y-anim.pivot.y)
+        graphics.drawq(anim.img, anim.frames[anim.pos_frame],
+                       anim.x-anim.pivot.x, anim.y-anim.pivot.y)
     end
 end
 

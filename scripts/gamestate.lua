@@ -41,16 +41,16 @@ function gamestate.update(dt)
 end
 
 function gamestate.drawBegin(dt)
-    love.graphics.draw(gamestate.titleText, 144, 54)
-    love.graphics.draw(gamestate.creditsText, 58, 102)
-    love.graphics.draw(gamestate.beginText, 68, 422)
+    graphics.draw(gamestate.titleText, 144, 54)
+    graphics.draw(gamestate.creditsText, 58, 102)
+    graphics.draw(gamestate.beginText, 68, 422)
 end
 
 function gamestate.drawInGame(dt) end
 
 function gamestate.drawDead(dt)
-    love.graphics.draw(gamestate.gameOverText, 120, 388)
-    love.graphics.draw(gamestate.endText, 60, 422)
+    graphics.draw(gamestate.gameOverText, 120, 388)
+    graphics.draw(gamestate.endText, 60, 422)
 end
 
 function gamestate.draw(dt)

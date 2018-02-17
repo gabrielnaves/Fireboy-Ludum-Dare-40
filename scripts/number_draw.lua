@@ -28,12 +28,12 @@ function drawInteger(num, x, y)
     if digit_amount > 0 then
         local i = 1
         while digit_amount > 0 do
-            love.graphics.draw(digits_img.img, digits_img.frames[digits[i] + 1],
+            graphics.drawq(digits_img.img, digits_img.frames[digits[i] + 1],
                                x + digits_img.frame_width * (digit_amount - 1), y)
             digit_amount = digit_amount - 1
             i = i + 1
         end
     else
-        love.graphics.draw(digits_img.img, digits_img.frames[1], x, y)
+        graphics.drawq(digits_img.img, digits_img.frames[1], x, y)
     end
 end

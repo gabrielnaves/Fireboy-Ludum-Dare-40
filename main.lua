@@ -1,3 +1,4 @@
+require("scripts.graphics")
 require("scripts.game_input")
 require("scripts.base_platform")
 require("scripts.base_enemy")

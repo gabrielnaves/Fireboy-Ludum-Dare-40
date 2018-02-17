@@ -4,7 +4,7 @@ floor.x = 0
 floor.y = 608
 
 function floor.draw(dt)
-    love.graphics.draw(floor.img, floor.x, floor.y)
+    graphics.draw(floor.img, floor.x, floor.y)
 end
 
 return floor

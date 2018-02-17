@@ -41,7 +41,7 @@ end
 
 function score.draw(dt)
     if gamestate.state ~= gamestate.states.begin then
-        love.graphics.draw(score.text, 6 + camera.realX, 26 + camera.realY)
+        graphics.draw(score.text, 6 + camera.realX, 26 + camera.realY)
 
         drawInteger(score.distance, 98 + camera.realX, 26 + camera.realY)
         drawInteger(score.enemiesKilled, 58 + camera.realX, 46 + camera.realY)

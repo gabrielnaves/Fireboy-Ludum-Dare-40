@@ -15,8 +15,8 @@ end
 
 function firebar.draw(dt)
     if gamestate.state ~= gamestate.states.begin then
-        love.graphics.draw(firebar.backImg, 6 + camera.realX, 2 + camera.realY)
-        love.graphics.draw(firebar.frontImg, 10 + camera.realX, 6 + camera.realY, 0, firebar.fire / firebar.maxFire, 1)
+        graphics.draw(firebar.backImg, 6 + camera.realX, 2 + camera.realY)
+        graphics.draws(firebar.frontImg, 10 + camera.realX, 6 + camera.realY, 0, firebar.fire / firebar.maxFire, 1)
     end
 end
 

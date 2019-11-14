@@ -21,6 +21,7 @@ function camera.unset()
 end
 
 function camera.update(dt)
+    -- Update actual camera position
     camera.x, camera.y = camera.realX, camera.realY
     if fireboy.y < camera.y + camera.fireboyOffset then
         camera.y = fireboy.y - camera.fireboyOffset
@@ -33,6 +34,7 @@ function camera.update(dt)
         end
     end
     camera.realX, camera.realY = camera.x, camera.y
+    -- Camera shake
     if camera.shaking then
         camera.x = camera.x + love.math.random(-2, 2)
         camera.y = camera.y + love.math.random(-3, 3)
